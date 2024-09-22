@@ -6,20 +6,29 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "start-peer": "node peerServer.js"
   },
   "dependencies": {
+    "classnames": "^2.5.1",
+    "lodash": "^4.17.21",
+    "lucide-react": "^0.445.0",
     "next": "13.5.7",
+    "peerjs": "^1.5.4",
     "react": "^18",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18",
+    "react-player": "^2.16.0",
     "socket.io": "^4.8.0",
-    "socket.io-client": "^4.8.0"
+    "socket.io-client": "^4.8.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10",
     "eslint": "^8",
     "eslint-config-next": "13.5.7",
     "postcss": "^8",
+    "postcss-nesting": "^13.0.0",
     "tailwindcss": "^3"
   }
 }
