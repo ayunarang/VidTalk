@@ -7,11 +7,11 @@
       @apply my-1;
     }
     .copyHeading {
-      @apply text-base;
+      @apply text-base p-2;
     }
   
     .copyDescription {
-      @apply flex items-center text-sm;
+      @apply flex items-center text-sm w-40 px-2 py-2;
     }
   }
   

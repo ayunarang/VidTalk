@@ -1,3 +1,5 @@
+
+
 import ReactPlayer from "react-player";
 import cx from "classnames";
 import { Mic, MicOff, UserSquare2 } from "lucide-react";
@@ -5,7 +7,14 @@ import { Mic, MicOff, UserSquare2 } from "lucide-react";
 import styles from "@/component/Player/index.module.css";
 
 const Player = (props) => {
-  const { url, muted, playing, isActive } = props;
+  const { url, muted, playing, isActive, onStopSharing } = props;
+
+  const handleStopSharing = () => {
+    if (onStopSharing) {
+      onStopSharing();
+    }
+  };
+
   return (
     <div
       className={cx(styles.playerContainer, {
@@ -33,6 +42,12 @@ const Player = (props) => {
           <Mic className={styles.icon} size={20} />
         )
       ) : undefined}
+
+      {isActive && (
+        <button onClick={handleStopSharing} className={styles.stopButton}>
+          Stop Sharing
+        </button>
+      )}
     </div>
   );
 };
