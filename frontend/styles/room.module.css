@@ -1,31 +1,32 @@
-
-   .activePlayerContainer {
-    @apply absolute left-0 right-0 mx-auto transition-all duration-300 ease-in-out;
-    width: calc(100% - 200px); 
-    top: 20px;
-    bottom: 50px;
-    height: calc(100vh - 20px - 100px);
+.activePlayerContainer {
+  @apply absolute left-0 right-0 mx-auto transition-all duration-300 ease-in-out;
+  width: calc(100% - 200px);
+  top: 20px;
+  bottom: 50px;
+  height: calc(100vh - 20px - 100px);
 }
 
 .inActivePlayerContainer {
-    @apply absolute flex flex-col overflow-y-auto  transition-all duration-300 ease-in-out;
-    width: 325px;
-    height: calc(100vh - 5rem);
-    right: 20px;
-    top: 5rem;
+  @apply absolute flex flex-col overflow-y-auto transition-all duration-300 ease-in-out;
+  width: 325px;
+  height: calc(100vh - 5rem);
+  right: 20px;
+  top: 5rem;
 }
 
 
 .topBar {
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 15px 20px;
   background-color: #252525;
   border-bottom: 1px solid #333;
 }
 
-.roomTitle {
-  font-size: 2rem;
-  font-weight: bold;
+.logo {
+  font-weight: 800;
+  font-style: normal;
+  font-size: 1.8rem;
   color: #f0f0f0;
+  cursor: pointer;
 }

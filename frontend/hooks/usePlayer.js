@@ -10,7 +10,7 @@ import html2canvas from 'html2canvas';
 
 
 const usePlayer = (myId, roomId, peer, stream) => {
-  const socket = useSocket();
+  const {socket} = useSocket();
   const [players, setPlayers] = useState({});
   const router = useRouter();
   const { userId, host } = useUsername();

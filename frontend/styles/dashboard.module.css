@@ -1,4 +1,3 @@
-
 .meetingsDashboard {
   display: flex;
   flex-direction: row;
@@ -8,10 +7,11 @@
   max-width: 100%;
   height: 100vh;
   margin: 0 auto;
-  padding: 1rem 8rem;
+  padding: 0.5rem 5rem;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  background-color: #1e1e1e;
 }
 
 .container::-webkit-scrollbar {
@@ -21,16 +21,19 @@
 .topBar {
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 15px 20px;
   background-color: #252525;
   border-bottom: 1px solid #333;
 }
 
-.roomTitle {
-  font-size: 2rem;
-  font-weight: bold;
+.logo {
+  font-weight: 800;
+  font-style: normal;
+  font-size: 1.8rem;
   color: #f0f0f0;
+  cursor: pointer;
 }
+
 
 .headingBox {
   display: flex;
@@ -61,6 +64,7 @@
   font-size: 2rem;
   font-weight: bold;
   margin: 2rem 0;
+  color: white;
 }
 
 
@@ -124,11 +128,11 @@
   flex-direction: row;
 }
 
-.participantsContainer{
+.participantsContainer {
   color: white;
   padding: 2rem;
   background-color: #1e1e1e;
-  height:100%;
+  height: 100%;
 }
 
 .date {

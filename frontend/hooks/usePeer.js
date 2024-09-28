@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 const { useState, useEffect, useRef } = require("react");
 
 const usePeer = () => {
-  const socket = useSocket();
+  const {socket }= useSocket();
   const router = useRouter();
   const roomId = router.query.roomId;
   const [peer, setPeer] = useState(null);

@@ -6,7 +6,15 @@ import { useChat } from "@/context/chat";
 import { useUsername } from "@/context/username";
 
 const Chat = ({ username, myId, roomId, isSavedChat, customChat, chatOpen }) => {
-  const socket = useSocket();
+  const {socket} = useSocket(); 
+
+  useEffect(() => {
+    if (socket) {
+        console.log("Socket connected in Room component", socket);
+    }
+}, [socket]);
+
+
   const { messages, addMessage } = useChat();
   const [newMessage, setNewMessage] = useState("");
   const { userId } = useUsername();

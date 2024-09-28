@@ -6,7 +6,6 @@ import usePlayer from "@/hooks/usePlayer";
 
 import Player from "@/component/Player/Player";
 import Bottom from "@/component/Bottom/Bottom";
-import CopySection from "@/component/CopySection/CopySection";
 
 import styles from "@/styles/room.module.css";
 import { useRouter } from "next/router";
@@ -16,12 +15,13 @@ import Notes from "@/component/Notes/Notes";
 import ParticipantList from "@/component/ParticipantList/ParticipantList";
 
 const Room = () => {
-  const socket = useSocket();
+  const { socket } = useSocket();
   const router = useRouter();
   const { roomId } = router.query;
   const { peer, myId } = usePeer();
   const { stream, setStream } = useMediaStream();
-  const { username, userId } = useUsername(); 
+  const { username, userId } = useUsername();
+
 
   const {
     players,
@@ -37,8 +37,8 @@ const Room = () => {
   } = usePlayer(myId, roomId, peer, stream);
 
   const [isRecording, setIsRecording] = useState(false);
-  const [users, setUsers] = useState({}); 
-  const [usernames, setUsernames] = useState({}); 
+  const [users, setUsers] = useState({});
+  const [usernames, setUsernames] = useState({});
   const originalStreamRef = useRef(null);
   const screenStreamRef = useRef(null);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
@@ -46,6 +46,7 @@ const Room = () => {
   useEffect(() => {
     if (stream && !originalStreamRef.current) {
       originalStreamRef.current = stream;
+      console.log("Original camera stream initialized.");
     }
   }, [stream]);
 
@@ -75,6 +76,7 @@ const Room = () => {
 
       screenStreamRef.current = screenStream;
       const screenVideoTrack = screenStream.getVideoTracks()[0];
+      console.log("Screen share started:", screenVideoTrack.label);
 
       Object.values(users).forEach((call) => {
         const sender = call.peerConnection.getSenders().find(
@@ -82,6 +84,7 @@ const Room = () => {
         );
         if (sender) {
           sender.replaceTrack(screenVideoTrack);
+          console.log(`Replaced video track for user: ${call.peer}`);
         }
       });
 
@@ -95,25 +98,32 @@ const Room = () => {
       }));
 
       socket.emit("screen-share", roomId, myId);
+      console.log("Emitted 'screen-share' event.");
 
       screenVideoTrack.onended = () => {
+        console.log("Screen share track ended via browser.");
         stopScreenShare();
       };
 
       setIsScreenSharing(true);
+
+      console.log("Screen sharing started.");
     } catch (err) {
       console.error("Error starting screen share:", err);
     }
   };
 
   const stopScreenShare = () => {
+    console.log("Stopping screen share.");
     const originalStream = originalStreamRef.current;
 
     if (!originalStream) {
+      console.error("Original camera stream not found.");
       return;
     }
 
     const originalVideoTrack = originalStream.getVideoTracks()[0];
+    console.log("Original camera track:", originalVideoTrack.label);
 
     Object.values(users).forEach((call) => {
       const sender = call.peerConnection.getSenders().find(
@@ -121,6 +131,7 @@ const Room = () => {
       );
       if (sender) {
         sender.replaceTrack(originalVideoTrack);
+        console.log(`Reverted video track for user: ${call.peer}`);
       }
     });
 
@@ -136,12 +147,19 @@ const Room = () => {
     if (screenStreamRef.current) {
       screenStreamRef.current.getTracks().forEach((track) => track.stop());
       screenStreamRef.current = null;
+      console.log("Screen stream stopped and cleared.");
     }
 
     socket.emit("screen-share-stop", roomId, myId);
+    console.log("Emitted 'screen-share-stop' event.");
 
     setIsScreenSharing(false);
+
+    console.log("Screen sharing stopped.");
   };
+
+
+
 
   const handleParticipantJoined = async (dbId) => {
     try {
@@ -150,23 +168,28 @@ const Room = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ dbId, roomId }), 
+        body: JSON.stringify({ dbId, roomId }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error adding user: ${response.statusText}`);
       }
-  
+
       const data = await response.json();
+      console.log(data);
+
     } catch (error) {
       console.error('Failed to add user to the database:', error);
     }
   };
 
+
   useEffect(() => {
     if (!socket || !peer || !stream) return;
 
     const handleUserConnected = (newUserId, newUsername, dbId) => {
+      console.log(`User connected: ${newUsername} (${newUserId}) in room ${roomId}`);
+
       setUsernames((prev) => ({
         ...prev,
         [newUserId]: newUsername,
@@ -177,6 +200,7 @@ const Room = () => {
       const call = peer.call(newUserId, stream, { metadata: { username: username } });
 
       call.on("stream", (incomingStream) => {
+        console.log(`Incoming stream from ${newUsername} (${newUserId})`);
         setPlayers((prev) => ({
           ...prev,
           [newUserId]: {
@@ -199,6 +223,9 @@ const Room = () => {
       });
     };
 
+
+
+
     socket.on("user-connected", handleUserConnected);
 
     return () => {
@@ -210,6 +237,7 @@ const Room = () => {
     if (!socket) return;
 
     const handleToggleAudio = (userId) => {
+      console.log(`User with ID ${userId} toggled audio`);
       setPlayers((prev) => ({
         ...prev,
         [userId]: {
@@ -220,6 +248,7 @@ const Room = () => {
     };
 
     const handleToggleVideo = (userId) => {
+      console.log(`User with ID ${userId} toggled video`);
       setPlayers((prev) => ({
         ...prev,
         [userId]: {
@@ -230,6 +259,7 @@ const Room = () => {
     };
 
     const handleScreenShareEvent = (userId) => {
+      console.log(`User with ID ${userId} started screen sharing`);
       setPlayers((prev) => ({
         ...prev,
         [userId]: {
@@ -240,6 +270,7 @@ const Room = () => {
     };
 
     const handleScreenShareStopEvent = (userId) => {
+      console.log(`User with ID ${userId} stopped screen sharing`);
       setPlayers((prev) => ({
         ...prev,
         [userId]: {
@@ -250,6 +281,7 @@ const Room = () => {
     };
 
     const handleUserLeave = (userId, username) => {
+      console.log(`User ${username} (${userId}) is leaving the room`);
       users[userId]?.close();
       setPlayers((prevPlayers) => {
         const { [userId]: _, ...remainingPlayers } = prevPlayers;
@@ -265,11 +297,14 @@ const Room = () => {
       });
     };
 
+
+
     socket.on("user-toggle-audio", handleToggleAudio);
     socket.on("user-toggle-video", handleToggleVideo);
     socket.on("screen-share", handleScreenShareEvent);
     socket.on("screen-share-stop", handleScreenShareStopEvent);
     socket.on("user-leave", handleUserLeave);
+
 
     return () => {
       socket.off("user-toggle-audio", handleToggleAudio);
@@ -277,6 +312,7 @@ const Room = () => {
       socket.off("screen-share", handleScreenShareEvent);
       socket.off("screen-share-stop", handleScreenShareStopEvent);
       socket.off("user-leave", handleUserLeave);
+
     };
   }, [socket, users, setPlayers]);
 
@@ -288,9 +324,13 @@ const Room = () => {
 
       const callerUsername = call.metadata?.username || "Unknown";
 
+
+      console.log(`Incoming call from ${callerUsername} (${callerId})`);
       call.answer(stream);
 
       call.on("stream", (incomingStream) => {
+        console.log(`Incoming stream from ${callerUsername} (${callerId})`);
+
         setPlayers((prev) => ({
           ...prev,
           [callerId]: {
@@ -319,8 +359,11 @@ const Room = () => {
     });
   }, [peer, setPlayers, stream, usernames]);
 
+
+
   useEffect(() => {
     if (!stream || !myId) return;
+    console.log(`Setting my stream (${myId})`);
     setPlayers((prev) => ({
       ...prev,
       [myId]: {
@@ -334,31 +377,115 @@ const Room = () => {
     originalStreamRef.current = stream;
   }, [myId, setPlayers, stream]);
 
-  const handleLeaveRoom = async () => {
-    await leaveRoom();
-    router.push("/");
+  const [isChatVisible, setChatVisible] = useState(false);
+  const [isNotesVisible, setisNotesVisible] = useState(false);
+
+  const toggleChat = () => {
+    setChatVisible((prev) => !prev);
   };
 
+  const toggleNotes = () => {
+    setisNotesVisible((prev) => !prev);
+  };
+
+  const inactivePlayersCount = Object.keys(nonHighlightedPlayers).length;
+  const translationPercentage = inactivePlayersCount === 0 ? '14%' : '10%'; 
+  const participants = [
+
+    { id: myId, username: username },
+
+    ...Object.keys(users).map((userId) => ({
+      id: userId,
+      username: usernames[userId] || "Unknown User",
+    })),
+  ];
+
+
   return (
-    <div className={styles.container}>
-      <ParticipantList players={players} usernames={usernames} />
-      <div className={styles.mainContent}>
-        <Player players={players} />
-        <Bottom
-          onLeaveRoom={handleLeaveRoom}
-          onToggleAudio={toggleAudio}
-          onToggleVideo={toggleVideo}
-          onStartStopRecording={handleStartStopRecording}
-          isRecording={isRecording}
-          onScreenShare={handleScreenShare}
-          isScreenSharing={isScreenSharing}
-        />
+    <div className="bg-[#1E1F22]">
+      <div className={styles.topBar}>
+        <h1
+          onClick={() => router.push("/")}
+          className={styles.logo}>VIDTALK</h1>
       </div>
-      <Chat />
-      <Notes />
-      <CopySection />
+
+      <div
+        style={{
+          display: 'flex',
+          transition: 'transform 0.5s ease-in-out',
+          transform: isChatVisible ? `translateX(${translationPercentage})` : 'translateX(25%)', 
+          maxHeight: '70%',
+          marginTop: '5rem',
+        }}
+        className={styles.activePlayerContainer}
+      >
+        {playerHighlighted && (
+          <Player
+            url={playerHighlighted.url}
+            muted={playerHighlighted.muted}
+            playing={playerHighlighted.playing}
+            isActive
+            screenShare={playerHighlighted.screenShare}
+            username={playerHighlighted.username}
+          />
+        )}
+      </div>
+
+      <div
+        style={{
+          right: isChatVisible ? '380px' : '30px',
+          transition: 'right 0.5s ease-in-out',
+        }}
+        className={styles.inActivePlayerContainer}
+      >
+        {Object.keys(nonHighlightedPlayers).map((playerId) => {
+          const { url, muted, playing, screenShare, username } = nonHighlightedPlayers[playerId];
+          return (
+            <Player
+              key={playerId}
+              url={url}
+              muted={muted}
+              playing={playing}
+              isActive={false}
+              screenShare={screenShare}
+              username={username} 
+            />
+          );
+        })}
+      </div>
+
+      <Bottom
+        muted={playerHighlighted?.muted}
+        playing={playerHighlighted?.playing}
+        toggleAudio={toggleAudio}
+        toggleVideo={toggleVideo}
+        startScreenShare={handleScreenShare}
+        takeScreenshot={takeScreenshot}
+        onRecordingToggle={handleStartStopRecording}
+        isRecording={isRecording}
+        isScreenSharing={isScreenSharing}
+        leaveRoom={leaveRoom}
+        toggleChat={toggleChat}
+        isChatVisible={isChatVisible}
+        roomId={roomId}
+        isNotesVisible={isNotesVisible}
+        toggleNotes={toggleNotes}
+      />
+
+      <div
+        className={`absolute right-0 top-0 bottom-0 w-96 h-full bg-white shadow-lg z-50 transition-transform duration-700 ease-in-out transform ${isChatVisible ? "translate-x-0" : "translate-x-full"}`}
+        style={{ overflowY: 'auto' }} 
+      >
+        <Chat username={username} myId={myId} roomId={roomId} />
+      </div>
+
+      <ParticipantList participants={participants} username={username} />
+
+      {isNotesVisible ? <Notes isNotesVisible={isNotesVisible} setisNotesVisible={setisNotesVisible} /> : null}
     </div>
   );
+
+
 };
 
 export default Room;

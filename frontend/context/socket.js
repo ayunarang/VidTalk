@@ -1,29 +1,43 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { createContext, useContext, useEffect, useState } from 'react';
+import io from 'socket.io-client';
 
 const SocketContext = createContext(null);
 
 export const useSocket = () => {
-    const socket = useContext(SocketContext)
-    return socket
-}
+    const socket = useContext(SocketContext);
+    return socket;
+};
 
-export const SocketProvider = (props) => {
-  const { children } = props;
-  const [socket, setSocket] = useState(null);
+export const SocketProvider = ({ children }) => {
+    const [socket, setSocket] = useState(null);
+    const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const connection = io();
-    console.log("socket connection", connection)
-    setSocket(connection);
-  }, []);
+    useEffect(() => {
+        const connection = io('http://localhost:5000'); // Adjust the URL as needed
 
-  socket?.on('connect_error', async (err) => {
-    console.log("Error establishing socket", err)
-    await fetch('/api/socket')
-  })
+        connection.on('connect', () => {
+            console.log('Socket connected:', connection.id);
+        });
 
-  return (
-    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
-  );
+        connection.on('connect_error', (err) => {
+            console.error('Connection error:', err);
+            setError(err.message);
+        });
+
+        connection.on('disconnect', (reason) => {
+            console.log('Socket disconnected:', reason);
+        });
+
+        setSocket(connection);
+
+        return () => {
+            connection.disconnect();
+        };
+    }, []);
+
+    return (
+        <SocketContext.Provider value={{ socket, error }}>
+            {children}
+        </SocketContext.Provider>
+    );
 };
