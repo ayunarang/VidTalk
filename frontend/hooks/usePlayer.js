@@ -1,27 +1,70 @@
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cloneDeep } from 'lodash';
 import { useSocket } from '@/context/socket';
 import { useRouter } from 'next/router';
+import { useUsername } from '@/context/username';
+import { useChat } from '@/context/chat';
+import { useNotes } from '@/context/notes';
+import DOMPurify from 'dompurify';
+import html2canvas from 'html2canvas';
+
 
 const usePlayer = (myId, roomId, peer, stream) => {
   const socket = useSocket();
   const [players, setPlayers] = useState({});
   const router = useRouter();
+  const { userId, host } = useUsername();
+  const { messages } = useChat();
+  const {note} =useNotes();
 
   const playerHighlighted = players[myId];
   const nonHighlightedPlayers = { ...players };
   delete nonHighlightedPlayers[myId];
 
+
+  const handleUserLeave = async (note) => {
+    try {
+      const response = await fetch(`/api/meetings/${roomId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId: userId, messages , note}),
+      });
+
+      if (response.ok) {
+        console.log("User successfully left the room");
+        socket.emit('user-leave', myId, roomId);
+        console.log("Leaving room", roomId);
+        peer?.disconnect();
+        router.push('/meetingsDashboard');
+      } else {
+        console.error('Failed to leave room:', await response.json());
+      }
+    } catch (error) {
+      console.error('Error leaving room:', error);
+    }
+  }
+
+  const sanitizeHtml = (htmlContent) => {
+    return DOMPurify.sanitize(htmlContent);
+};
+
+
   const leaveRoom = () => {
-    socket.emit('user-leave', myId, roomId);
-    console.log("Leaving room", roomId);
-    peer?.disconnect();
-    router.push('/');
+    console.log(note);
+
+    const sanitizedNote= sanitizeHtml(note);
+    console.log(sanitizedNote);
+      handleUserLeave(sanitizedNote);
+      socket.emit('user-leave', myId, roomId);
+      console.log("Leaving room", roomId);
+      peer?.disconnect();
+      router.push('/meetingsDashboard');
   };
 
 
-const toggleAudio = () => {
+  const toggleAudio = () => {
     console.log("I toggled my audio");
     setPlayers((prev) => ({
       ...prev,
@@ -32,7 +75,7 @@ const toggleAudio = () => {
     }));
     socket.emit('user-toggle-audio', myId, roomId);
   };
-  
+
   const toggleVideo = () => {
     console.log("I toggled my video");
     setPlayers((prev) => ({
@@ -44,61 +87,33 @@ const toggleAudio = () => {
     }));
     socket.emit('user-toggle-video', myId, roomId);
   };
+
+    const [isClient, setIsClient] = useState(false);
   
-
-  const takeScreenshot = () => {
-    const videoElement = document.querySelector('video');
-    if (videoElement) {
-      const canvas = document.createElement('canvas');
-      canvas.width = videoElement.videoWidth;
-      canvas.height = videoElement.videoHeight;
-      const context = canvas.getContext('2d');
-      context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-      const dataURL = canvas.toDataURL('image/png');
-
-      const link = document.createElement('a');
-      link.href = dataURL;
-      link.download = 'screenshot.png';
-      link.click();
-    } else {
-      console.error("No video element found.");
-    }
-  };
-
-  const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [recordedChunks, setRecordedChunks] = useState([]);
-
-  const startRecording = () => {
-    if (!stream) {
-      console.error("No stream available for recording.");
-      return;
-    }
-    const newMediaRecorder = new MediaRecorder(stream);
-    newMediaRecorder.ondataavailable = (event) => {
-      if (event.data.size > 0) {
-        setRecordedChunks((prev) => prev.concat(event.data));
+    useEffect(() => {
+      setIsClient(true);
+    }, []);
+  
+    const takeScreenshot = async () => {
+      if (!isClient) return;
+  
+      const element = document.body; 
+  
+      try {
+        const canvas = await html2canvas(element, {
+          useCORS: true, 
+        });
+        const dataURL = canvas.toDataURL('image/png');
+  
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = 'screenshot.png';
+        link.click();
+      } catch (error) {
+        console.error("Error taking screenshot:", error);
       }
-    };
-    newMediaRecorder.onstop = () => {
-      const blob = new Blob(recordedChunks, { type: 'video/webm; codecs=vp8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'recording.webm';
-      a.click();
-      setRecordedChunks([]);
-    };
-    newMediaRecorder.start();
-    setMediaRecorder(newMediaRecorder);
-  };
 
-  const stopRecording = () => {
-    if (mediaRecorder) {
-      mediaRecorder.stop();
-      setMediaRecorder(null);
     }
-  };
-
   return {
     players,
     setPlayers,
@@ -108,8 +123,6 @@ const toggleAudio = () => {
     toggleVideo,
     leaveRoom,
     takeScreenshot,
-    startRecording,
-    stopRecording,
   };
 };
 

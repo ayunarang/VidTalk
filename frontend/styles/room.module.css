@@ -1,15 +1,31 @@
-.activePlayerContainer {
-    @apply absolute w-9/12 left-0 right-0 mx-auto;
+
+   .activePlayerContainer {
+    @apply absolute left-0 right-0 mx-auto transition-all duration-300 ease-in-out;
+    width: calc(100% - 200px); 
     top: 20px;
     bottom: 50px;
     height: calc(100vh - 20px - 100px);
-  }
-  
-  .inActivePlayerContainer {
-    @apply absolute flex flex-col overflow-y-auto;
-    width: 200px;
-    height: calc(100vh - 20px);
+}
+
+.inActivePlayerContainer {
+    @apply absolute flex flex-col overflow-y-auto  transition-all duration-300 ease-in-out;
+    width: 325px;
+    height: calc(100vh - 5rem);
     right: 20px;
-    top: 20px;
-  }
-  
+    top: 5rem;
+}
+
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #252525;
+  border-bottom: 1px solid #333;
+}
+
+.roomTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #f0f0f0;
+}

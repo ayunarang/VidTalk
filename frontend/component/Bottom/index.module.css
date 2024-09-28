@@ -1,14 +1,55 @@
 .bottomMenu {
-    @apply absolute flex justify-between bottom-5 left-0 right-0 mx-auto;
-    width: 500px;
-    .icon {
-      @apply p-4 rounded-full text-white cursor-pointer;
-      background-color: theme("colors.secondary");
-  
-      &:hover,
-      &.active {
-        background-color: theme("colors.buttonPrimary");
-      }
-    }
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  width: fit-content;
+  padding: 10px;
+  background-color: #313339;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  padding: 15px;
+  border-radius: 50%;
+  background-color: #1E1F22;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1rem;
+}
+
+.icon:hover {
+  background-color: #5270EF;
+}
+
+.active {
+  background-color: #a2aee8;
+  color: #252525;
+}
+
+.leaveSection {
+  background-color: #7e0606;
+  cursor: pointer;
+}
+
+.copySection {
+  background-color: #5270EF;
+}
+
+.copySection, .leaveSection {
+  width: max-content;
+  padding: 10px 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1rem;
+  border-radius: 35px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
