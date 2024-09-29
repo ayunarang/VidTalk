@@ -12,7 +12,6 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
   console.log(userId)
 
   const handleSave = async () => {
-    console.log("inside handle save func")
     const meetingData = {
       title, startDate, startTime, notificationTime, userId
     };
@@ -20,7 +19,7 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
     console.log("meting data", meetingData)
   
     try {
-      const response = await fetch('http://localhost:5000/api/scheduleMeeting', {
+      const response = await fetch('https://vidtalk.onrender.com/api/scheduleMeeting', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

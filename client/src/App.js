@@ -1,14 +1,11 @@
 import React from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-// import Login from './component/Login'
-
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 import "./styles/globals.css";
 
 import { SocketProvider } from "./context/socket";
 import { UsernameProvider } from "./context/username";
-import { useEffect, useState } from "react";
 import { ChatProvider } from "./context/chat";
 import { NotesProvider } from "./context/notes";
 import Home from './pages/Home';

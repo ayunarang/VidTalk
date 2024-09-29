@@ -14,15 +14,9 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const { userId, loggedIn, username, host, sethost } = useUsername();
 
-  // useEffect(() => {
-  //   if (session) {
-  //     setIsLoading(false);
-  //   }
-  // }, [session]);
-
   const handleCreateMeeting = async (roomId, roomData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/meetings', {
+      const response = await fetch('https://vidtalk.onrender.com/api/meetings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

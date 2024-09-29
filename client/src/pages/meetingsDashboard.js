@@ -30,7 +30,7 @@ const MeetingsDashboard = () => {
 
   const fetchMeetings = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${userId}/meetings`);
+      const response = await fetch(`https://vidtalk.onrender.com/api/users/${userId}/meetings`);
 
       const data = await response.json();
       console.log(data);

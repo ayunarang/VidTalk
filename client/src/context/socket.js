@@ -13,7 +13,7 @@ export const SocketProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const connection = io('http://localhost:5000'); 
+        const connection = io('https://vidtalk.onrender.com/'); 
 
         connection.on('connect', () => {
             console.log('Socket connected:', connection.id);

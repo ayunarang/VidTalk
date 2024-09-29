@@ -161,7 +161,7 @@ const Room = () => {
 
   const handleParticipantJoined = useCallback(async (dbId) => {
     try {
-      const response = await fetch('http://localhost:5000/api/meetings/update', {
+      const response = await fetch('https://vidtalk.onrender.com/api/meetings/update', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
