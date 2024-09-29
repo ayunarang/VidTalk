@@ -87,11 +87,7 @@ export default function Home() {
 
           {!loggedIn ? (
             <>
-              <button
-                className="flex items-center bg-[#282828] hover:bg-[#343434] text-white py-4 px-4 rounded-lg w-full mb-4 justify-center"
-                onClick={handleGoogleSignIn}
-                disabled={isLoading}
-              >
+              <div className="flex justify-center items-center">
                 <GoogleLogin
                   onSuccess={credentialResponse => {
                     console.log(credentialResponse);
@@ -102,42 +98,41 @@ export default function Home() {
                   onError={() => {
                     console.log('Login Failed');
                   }}
-                />
-                {isLoading ? (
-                  <div className="flex items-center">
-                    <svg
-                      className="animate-spin h-5 w-5 mr-3 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                      ></path>
-                    </svg>
-                    Signing in...
-                  </div>
-                ) : (
-                  <>
-                    {/* <img
-                      src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
-                      alt="Google Logo"
-                      className="h-12 w-35"
-                    />
-                    <p className="text-xl font-semibold ml-2">Sign in with Google</p> */}
-                  </>
-                )}
-              </button>
+                  size="large" 
+                  theme="outline"
+                  width="300" 
+                  />
+              </div>
+
+              {isLoading ? (
+                <div className="flex items-center">
+                  <svg
+                    className="animate-spin h-5 w-5 mr-3 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    ></path>
+                  </svg>
+                  Signing in...
+                </div>
+              ) : (
+                <>
+                </>
+              )}
+
             </>
           ) : (
             <>
