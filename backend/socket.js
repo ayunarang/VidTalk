@@ -20,9 +20,9 @@ function initSocket(io) {
       socket.emit("existing-usernames", existingUsernames);
     });
 
-    socket.on("chat-message", (roomId, message, username, userId) => {
-      socket.broadcast.to(roomId).emit("receive-message", message, username, userId);
-      console.log("Message sent from server");
+    socket.on("chat-message", ({roomId, message, senderName, senderId}) => {
+      socket.broadcast.to(roomId).emit("receive-message", message, senderName, senderId);
+      console.log("Message sent from server", message);
     });
 
     socket.on("user-leave", (userId, roomId) => {

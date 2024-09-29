@@ -92,8 +92,8 @@ exports.finishMeetings= async (req, res) => {
       }
   
       meeting.chatHistory = messages.map((msg) => ({
-        username: msg.sender,
-        sender: msg.userId,
+        senderName: msg.senderName,
+        senderId: msg.senderId,
         message: msg.message,
       }));
   

@@ -5,8 +5,6 @@ const user_routes = require("./routes/user_routes.js");
 const cors = require("cors");
 const mongoDb = require("./config/db.js");
 const { initSocket } = require("./socket.js");
-require('dotenv').config();
-
 
 const app = express();
 const server = http.createServer(app);
@@ -31,7 +29,7 @@ app.use('/api', user_routes);
 // Initialize socket
 initSocket(io); // Pass io object instead of server
 
-const PORT = process.env.PORT ;
+const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

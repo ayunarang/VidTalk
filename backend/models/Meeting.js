@@ -9,9 +9,9 @@ const MeetingSchema = new mongoose.Schema({
   
   chatHistory: [
     {
-      sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
       message: String,
-      username: String,
+      senderName: String,
       timestamp: Date
     }
   ],
