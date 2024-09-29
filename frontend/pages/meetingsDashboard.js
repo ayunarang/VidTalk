@@ -4,12 +4,12 @@ import React, { useEffect, useState } from 'react';
 import styles from '@/styles/dashboard.module.css';
 import { useUsername } from '@/context/username';
 import { Users, MessageSquareShare, NotebookPen, ExternalLink } from 'lucide-react';
-import useFormattedDate from '@/hooks/useFormattedDate';
 import Chat from '@/component/Chat/Chat';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { useRouter } from 'next/router';
 import ScheduleMeeting from '@/component/ScheduleMeeting/ScheduleMeeting';
+import Image from 'next/image';
 
 
 
@@ -31,7 +31,8 @@ const MeetingsDashboard = () => {
 
   const fetchMeetings = async (userId) => {
     try {
-      const response = await fetch(`/api/meetings/getmeetings?userId=${userId}`);
+      const response = await fetch(`http://localhost:5000/api/users/${userId}/meetings`);
+
       const data = await response.json();
       console.log(data);
 
@@ -142,6 +143,20 @@ const MeetingsDashboard = () => {
     router.push(`/noteViewer?content=${encodeURIComponent(note)}`);
   };
 
+    const formatMeetingDate = (dateString) => {
+      const date = new Date(dateString);
+    
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = date.toLocaleDateString(undefined, options);
+      const formattedTime = date.toLocaleTimeString(undefined, {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true, 
+      });
+    
+      return { formattedDate, formattedTime };
+    };
+
   return (
     <>
       <div className={styles.topBar}>
@@ -168,7 +183,7 @@ const MeetingsDashboard = () => {
         <h2 className={styles.upcomingHeader}>Upcoming Meetings</h2>
         {upcomingMeetings && upcomingMeetings.length > 0 ? (
           upcomingMeetings.map((meeting) => {
-            const { formattedDate, formattedTime } = useFormattedDate(meeting.createdAt);
+            const { formattedDate, formattedTime } = formatMeetingDate(meeting.createdAt);
             return (
               <div key={meeting._id} className={styles.meetingCard}>
                 <div>
@@ -198,7 +213,7 @@ const MeetingsDashboard = () => {
         <h2 className={styles.upcomingHeader}>Completed Meetings</h2>
         {completedMeetings && completedMeetings.length > 0 ? (
           completedMeetings.map((meeting) => {
-            const { formattedDate, formattedTime } = useFormattedDate(meeting.createdAt);
+            const { formattedDate, formattedTime } = formatMeetingDate(meeting.createdAt);
             return (
               <div key={meeting._id} className={styles.meetingCard}>
                 <div>

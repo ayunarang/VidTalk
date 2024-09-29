@@ -24,7 +24,7 @@ const usePlayer = (myId, roomId, peer, stream) => {
 
   const handleUserLeave = async (note) => {
     try {
-      const response = await fetch(`/api/meetings/${roomId}`, {
+      const response = await fetch(`http://localhost:5000/api/meetings/${roomId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -33,6 +33,7 @@ const usePlayer = (myId, roomId, peer, stream) => {
       });
 
       if (response.ok) {
+        console.log(response.data);
         console.log("User successfully left the room");
         socket.emit('user-leave', myId, roomId);
         console.log("Leaving room", roomId);

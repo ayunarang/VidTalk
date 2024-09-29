@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import connectToDatabase from "@/pages/utils/db";
-import User from "@/pages/models/User";
+// import connectToDatabase from "@/pages/utils/db";
+// import User from "@/pages/models/User";
 
 export default NextAuth({
   providers: [
@@ -11,26 +11,10 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
-      await connectToDatabase();
-
-      const existingUser = await User.findOne({ email: user.email });
-      console.log("existing user found", existingUser);
-      if (!existingUser) {
-        await User.create({
-          googleId: profile.sub,
-          name: user.name,
-          email: user.email,
-          avatar: user.image,
-        });
-        console.log("new user created");
-      }
-
+    async signIn() {
       return true;
     },
-    async session({ session, token }) {
-      const dbUser = await User.findOne({ email: session.user.email });
-      session.user.id = dbUser._id;
+    async session({session, token}) {
       return session;
     },
   },

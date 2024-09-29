@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import { useUsername } from '@/context/username';
 import { signIn, useSession } from 'next-auth/react';
 import styles from '@/styles/home.module.css';
+import Image from 'next/image';
 
 export default function Home() {
   const router = useRouter();
   const [roomId, setRoomId] = useState('');
   const [isHosting, setHosting] = useState(true);
   const [MeetingTitle, setMeetingTitle] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Loader state
+  const [isLoading, setIsLoading] = useState(false); 
   const { userId, loggedIn, username, host, sethost } = useUsername();
   const { data: session } = useSession();
 
@@ -22,11 +23,12 @@ export default function Home() {
 
   const handleCreateMeeting = async (roomId, roomData) => {
     try {
-      const response = await fetch('/api/meetings', {
+      const response = await fetch('http://localhost:5000/api/meetings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(roomData),
       });
 

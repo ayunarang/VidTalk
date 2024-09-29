@@ -20,7 +20,7 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
     console.log("meting data", meetingData)
   
     try {
-      const response = await fetch('/api/scheduleMeeting', {
+      const response = await fetch('http://localhost:5000/api/scheduleMeeting', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -13,7 +13,7 @@ export const SocketProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const connection = io('http://localhost:5000'); // Adjust the URL as needed
+        const connection = io('http://localhost:5000'); 
 
         connection.on('connect', () => {
             console.log('Socket connected:', connection.id);

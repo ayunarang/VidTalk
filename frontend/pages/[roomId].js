@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useSocket } from "@/context/socket";
 import usePeer from "@/hooks/usePeer";
 import useMediaStream from "@/hooks/useMediaStream";
@@ -159,46 +159,42 @@ const Room = () => {
   };
 
 
-
-
-  const handleParticipantJoined = async (dbId) => {
+  const handleParticipantJoined = useCallback(async (dbId) => {
     try {
-      const response = await fetch('/api/meetings/add', {
+      const response = await fetch('http://localhost:5000/api/meetings/update', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ dbId, roomId }),
       });
-
+  
       if (!response.ok) {
         throw new Error(`Error adding user: ${response.statusText}`);
       }
-
+  
       const data = await response.json();
       console.log(data);
-
     } catch (error) {
       console.error('Failed to add user to the database:', error);
     }
-  };
-
-
+  }, [roomId]); 
+  
   useEffect(() => {
     if (!socket || !peer || !stream) return;
-
+  
     const handleUserConnected = (newUserId, newUsername, dbId) => {
       console.log(`User connected: ${newUsername} (${newUserId}) in room ${roomId}`);
-
+  
       setUsernames((prev) => ({
         ...prev,
         [newUserId]: newUsername,
       }));
-
+  
       handleParticipantJoined(dbId);
-
+  
       const call = peer.call(newUserId, stream, { metadata: { username: username } });
-
+  
       call.on("stream", (incomingStream) => {
         console.log(`Incoming stream from ${newUsername} (${newUserId})`);
         setPlayers((prev) => ({
@@ -211,27 +207,25 @@ const Room = () => {
             username: newUsername,
           },
         }));
-
+  
         setUsers((prev) => ({
           ...prev,
           [newUserId]: call,
         }));
       });
-
+  
       call.on("error", (err) => {
         console.error(`Call error with user ${newUserId}:`, err);
       });
     };
-
-
-
-
+  
     socket.on("user-connected", handleUserConnected);
-
+  
     return () => {
       socket.off("user-connected", handleUserConnected);
     };
-  }, [peer, setPlayers, socket, stream, roomId]);
+  }, [peer, setPlayers, socket, stream, roomId, handleParticipantJoined, username]); 
+  
 
   useEffect(() => {
     if (!socket) return;

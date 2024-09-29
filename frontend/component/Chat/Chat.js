@@ -48,7 +48,7 @@ const Chat = ({ username, myId, roomId, isSavedChat, customChat, chatOpen }) => 
   const handleDownload = () => {
     if (!customChat || customChat.length === 0) return;
   
-    const chatContent = customChat.map(msg => `${msg.sender}: ${msg.message}`).join('\n');
+    const chatContent = customChat.map(msg => `${msg.username}: ${msg.message}`).join('\n');
     const blob = new Blob([chatContent], { type: 'text/plain' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -75,16 +75,16 @@ const Chat = ({ username, myId, roomId, isSavedChat, customChat, chatOpen }) => 
         {chatMessages.map((msg, index) => (
           <div
             key={index}
-            className={`${styles.message} ${msg.sender === username ? styles.justifyEnd : ""}`}
+            className={`${styles.message} ${msg.sender === userId ? styles.justifyEnd : ""}`}
           >
-            {msg.sender !== username && <div className={styles.senderName}>{msg.sender}</div>}
+            {msg.sender !== userId && <div className={styles.senderName}>{msg.username}</div>}
             <div
               className={`${styles.messageContent} ${
-                msg.sender === username ? styles.senderMessage : styles.receiverMessage
+                msg.sender === userId ? styles.senderMessage : styles.receiverMessage
               }`}
             >
               <span>{msg.message}</span>
-              <div className={(msg.sender === username ? styles.messageTimestampsender : styles.messageTimestampreceiver)}>
+              <div className={(msg.sender === userId ? styles.messageTimestampsender : styles.messageTimestampreceiver)}>
                 {new Date().toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
