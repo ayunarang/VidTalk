@@ -11,7 +11,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: 'https://vidtalk.onrender.com/',
     methods: ['GET', 'POST']
   }
 });
@@ -19,7 +19,7 @@ const io = new Server(server, {
 app.use(express.json());
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://vidtalk.onrender.com/",
   credentials: true 
 };
 app.use(cors(corsOptions));
