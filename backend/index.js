@@ -49,7 +49,8 @@ initSocket(io);
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  const baseUrl = process.env.NODE_ENV === 'production' 
+    ? 'https://vidtalk.onrender.com/' 
+    : `http://localhost:${PORT}`;
+  console.log(`Server is running on ${baseUrl}`);
 });
-
-mongoDb();
