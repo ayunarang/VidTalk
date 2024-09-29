@@ -5,6 +5,7 @@ const user_routes = require("./routes/user_routes.js");
 const cors = require("cors");
 const mongoDb = require("./config/db.js");
 const { initSocket } = require("./socket.js");
+const path = require("path");
 
 const app = express();
 const server = http.createServer(app);
@@ -23,11 +24,28 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Routes
 app.use('/api', user_routes);
 
-// Initialize socket
-initSocket(io); // Pass io object instead of server
+
+// ---deployment
+
+const _dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(_dirname1, '../client/build')));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(_dirname1, '../client', 'build', 'index.html'))
+  );
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running successfully!');
+  });
+}
+
+// ----deployment
+
+initSocket(io); 
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
