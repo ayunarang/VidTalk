@@ -1,0 +1,167 @@
+.meetingsDashboard {
+  display: flex;
+  flex-direction: row;
+}
+
+.container {
+  max-width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 0.5rem 5rem 7rem 5rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background-color: #1e1e1e;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background-color: #252525;
+  border-bottom: 1px solid #333;
+}
+
+.logo {
+  font-weight: 800;
+  font-style: normal;
+  font-size: 1.8rem;
+  color: #f0f0f0;
+  cursor: pointer;
+}
+
+
+.headingBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rightHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  max-width: 27rem;
+}
+
+.btn {
+  border-radius: 25px;
+  padding: 1rem 1.3rem;
+  cursor: pointer;
+  background-color: #5270EF;
+  color: white;
+  font-weight: 600;
+}
+
+.headingContainer {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 2rem 0;
+  color: white;
+}
+
+
+.meetingCard {
+  background-color: #242424;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  justify-items: center;
+  max-width: 75%;
+}
+
+.time {
+  color: #4a4a4a;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.duration {
+  color: #888;
+}
+
+.meetingInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.name {
+  color: white;
+  /* font-weight: 500; */
+  font-size: 1.2rem;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  color: #555;
+}
+
+.icon {
+  height: 25px;
+  width: 25px;
+}
+
+.participants {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-direction: row;
+}
+
+.participantsContainer {
+  color: white;
+  padding: 2rem;
+  background-color: #1e1e1e;
+  height: 100%;
+}
+
+.date {
+  color: #888;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.statusConfirmed {
+  color: #1d4ed8;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actionBtn {
+  color: #888;
+  transition: color 0.2s;
+}
+
+.actionBtn:hover {
+  color: #333;
+}
+
+.upcomingHeader {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}

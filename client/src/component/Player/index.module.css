@@ -1,0 +1,73 @@
+.playerContainer {
+  @apply relative overflow-hidden mb-5 h-full rounded-lg justify-center;
+  transition: transform 0.3s ease;
+}
+
+.active {
+  @apply rounded-lg;
+  -webkit-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.75);
+}
+
+.notActive {
+  @apply rounded-md h-min;
+  -webkit-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.75);
+}
+
+.icon {
+  @apply text-white absolute left-2 bottom-2;
+  background-color: #5270EF;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+}
+
+.user {
+  @apply text-white;
+}
+
+.userIcon {
+  color: #fff;
+  margin: auto;
+}
+
+.username {
+  position: absolute;
+  bottom: 12px;
+  right: 0;
+  margin-right: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 17px;
+  white-space: normal;
+  max-width: calc(100% - 40px);
+}
+
+.notPlaying {
+  @apply flex items-center justify-center;
+}
+
+.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+}
+
+.enlargeIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 5px;
+}
