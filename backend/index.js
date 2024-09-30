@@ -11,7 +11,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'https://vidtalk.onrender.com/',
+    origin: 'https://vidtalk.onrender.com',
     methods: ['GET', 'POST']
   }
 });
@@ -19,7 +19,7 @@ const io = new Server(server, {
 app.use(express.json());
 
 const corsOptions = {
-  origin: "https://vidtalk.onrender.com/",
+  origin: "https://vidtalk.onrender.com",
   credentials: true 
 };
 app.use(cors(corsOptions));
@@ -54,3 +54,6 @@ server.listen(PORT, () => {
     : `http://localhost:${PORT}`;
   console.log(`Server is running on ${baseUrl}`);
 });
+
+
+mongoDb();
