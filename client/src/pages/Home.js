@@ -59,9 +59,12 @@ export default function Home() {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    setIsLoading(true);
-  };
+  useEffect(() => {
+    if(userId){
+      setIsLoading(false);
+
+    }  
+  }, [userId]);
 
   return (
     <div className="flex h-screen">
@@ -79,15 +82,15 @@ export default function Home() {
             {loggedIn ? `Welcome back, ${username}` : 'Sign in to Vidtalk'}
           </h2>
 
-          {!loggedIn ? (
+          {!userId ? (
             <>
               <div className="flex justify-center items-center">
                 <GoogleLogin
                   onSuccess={credentialResponse => {
                     console.log(credentialResponse);
-                    setIsLoading(false);
                     localStorage.setItem('access_token', credentialResponse.credential);
                     window.location.reload();
+                    setIsLoading(true);
                   }}
                   onError={() => {
                     console.log('Login Failed');
@@ -130,7 +133,7 @@ export default function Home() {
             </>
           ) : (
             <>
-              {(loggedIn) ? (
+              {(userId) ? (
                 <p
                   onClick={() => navigate('/meetingsDashboard')}
                   className='fixed top-5 right-5 text-xl text-[#aaaaaa] cursor-pointer font-semibold'>Go to dashboard</p>
