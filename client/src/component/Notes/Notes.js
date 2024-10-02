@@ -18,35 +18,35 @@ const customStyleMap = {
 };
 
 const blockRenderMap = {
-  'header-one': { element: 'h1', attributes: { className: 'text-4xl font-bold' } },
-  'header-two': { element: 'h2', attributes: { className: 'text-3xl font-semibold' } },
-  'header-three': { element: 'h3', attributes: { className: 'text-2xl font-medium' } },
-  'unordered-list-item': { element: 'li', wrapper: 'ul', attributes: { className: 'list-disc ml-4' } },
-  'ordered-list-item': { element: 'li', wrapper: 'ol', attributes: { className: 'list-decimal ml-4' } },
-  'unstyled': { element: 'p' }
+    'header-one': { element: 'h1', attributes: { className: 'text-4xl font-bold' } },
+    'header-two': { element: 'h2', attributes: { className: 'text-3xl font-semibold' } },
+    'header-three': { element: 'h3', attributes: { className: 'text-2xl font-medium' } },
+    'unordered-list-item': { element: 'li', wrapper: 'ul', attributes: { className: 'list-disc ml-4' } },
+    'ordered-list-item': { element: 'li', wrapper: 'ol', attributes: { className: 'list-decimal ml-4' } },
+    'unstyled': { element: 'p' }
 };
 
 const exportOptions = {
-  inlineStyles: {
-    RED: { style: { color: 'rgba(255, 140, 135, 0.6)' } },
-    PURPLE: { style: { color: 'rgba(174, 181, 255, 0.6)' } },
-    GREEN: { style: { color: 'rgba(179, 229, 103, 0.6)' } },
-    YELLOW_BG: { style: { backgroundColor: 'rgba(255, 220, 116, 0.6)' } },
-    PINK_BG: { style: { backgroundColor: 'rgba(243, 166, 200, 0.6)' } },
-    BLUE_BG: { style: { backgroundColor: 'rgba(149, 201, 243, 0.6)' } }
-  },
-  blockStyleFn: (block) => {
-    const blockType = block.getType();
-    const blockDef = blockRenderMap[blockType];
-    if (blockDef) {
-      return {
-        element: blockDef.element,
-        attributes: blockDef.attributes,
-        wrapper: blockDef.wrapper
-      };
+    inlineStyles: {
+        RED: { style: { color: 'rgba(255, 140, 135, 0.6)' } },
+        PURPLE: { style: { color: 'rgba(174, 181, 255, 0.6)' } },
+        GREEN: { style: { color: 'rgba(179, 229, 103, 0.6)' } },
+        YELLOW_BG: { style: { backgroundColor: 'rgba(255, 220, 116, 0.6)' } },
+        PINK_BG: { style: { backgroundColor: 'rgba(243, 166, 200, 0.6)' } },
+        BLUE_BG: { style: { backgroundColor: 'rgba(149, 201, 243, 0.6)' } }
+    },
+    blockStyleFn: (block) => {
+        const blockType = block.getType();
+        const blockDef = blockRenderMap[blockType];
+        if (blockDef) {
+            return {
+                element: blockDef.element,
+                attributes: blockDef.attributes,
+                wrapper: blockDef.wrapper
+            };
+        }
+        return {};
     }
-    return {};
-  }
 };
 
 const Notes = ({ isNotesVisible, setisNotesVisible }) => {
@@ -55,9 +55,10 @@ const Notes = ({ isNotesVisible, setisNotesVisible }) => {
     const editorRef = useRef(null);
     const { UpdateNote } = useNotes();
     const [lastHtmlContent, setLastHtmlContent] = useState('');
+    const [NotesInfo, setNotesInfo] = useState(true);
 
     const currentHtmlContent = useMemo(() => {
-        return stateToHTML(editorState.getCurrentContent(), exportOptions); 
+        return stateToHTML(editorState.getCurrentContent(), exportOptions);
     }, [editorState]);
 
     const handleKeyCommand = (command) => {
@@ -71,7 +72,7 @@ const Notes = ({ isNotesVisible, setisNotesVisible }) => {
 
     const getBlockStyle = (block) => {
         const blockType = block.getType();
-        return blockRenderMap[blockType]?.attributes?.className || 'text-xl'; 
+        return blockRenderMap[blockType]?.attributes?.className || 'text-xl';
     };
 
     const applyBlockType = (type) => {
@@ -116,7 +117,7 @@ const Notes = ({ isNotesVisible, setisNotesVisible }) => {
         if (isNotesVisible) {
             if (editorRef.current) {
                 editorRef.current.scrollIntoView({ behavior: 'smooth' });
-                editorRef.current.focus(); 
+                editorRef.current.focus();
             }
         }
     }, [isNotesVisible, editorState]);
@@ -139,10 +140,19 @@ const Notes = ({ isNotesVisible, setisNotesVisible }) => {
                 <button className={styles.toolBarButtons} onClick={() => applyInlineStyle('BLUE_BG')} style={{ backgroundColor: '#95C9F3' }}>H</button>
             </div>
             <div className='w-11/12 px-4 py-2'>
-                <div className='flex flex-row justify-between w-full'>
-                    <h2 className="text-lg font-semibold text-white my-2">Meeting Notes</h2>
+                <div className='flex flex-row justify-between w-full mt-2'>
+                    <h2 className="text-lg font-semibold text-white">Meeting Notes</h2>
                     <X size={32} onClick={() => { setisNotesVisible(false); }} style={{ backgroundColor: '#D60010', padding: '0.3rem', borderRadius: '5px', cursor: 'pointer' }} />
                 </div>
+                {(NotesInfo) ?
+                    <div className='flex flex-row justify-between w-full bg-[#1f2228] mb-2'>
+                        <p className='text-base text-gray-100'>Notes will automatically be saved if you close the notes or exit the meeting :)</p>
+                        <button
+                            onClick={() => { setNotesInfo(false) }}
+                            className='border-0 outline-none text-gray-100'>x</button>
+                    </div>
+                    : ''}
+
                 <div className={styles.notes} ref={editorRef}>
                     <Editor
                         editorState={editorState}

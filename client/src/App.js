@@ -11,6 +11,7 @@ import { NotesProvider } from "./context/notes";
 import Home from './pages/Home';
 import MeetingsDashboard from './pages/meetingsDashboard';
 import Room from './pages/Room';
+import NotesPage from './pages/noteViewer';
 
 
 function App() {
@@ -26,7 +27,8 @@ function App() {
                   <Route exact path="/" element={<Home />} />
                   <Route exact path="/:roomId" element={<Room />} />
                   <Route exact path="/meetingsDashboard" element={<MeetingsDashboard/>} />
-                </Routes>
+                  <Route exact path="/noteViewer" element={<NotesPage/>} />
+                  </Routes>
 
               </Router>
             </NotesProvider>

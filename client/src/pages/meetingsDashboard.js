@@ -37,7 +37,7 @@ const MeetingsDashboard = () => {
 
       if (Array.isArray(data)) {
         const upcoming = data.filter(meeting => meeting.status === 'upcoming');
-        const completed = data.filter(meeting => meeting.status === 'completed');
+        const completed = data.filter(meeting => meeting.status !== 'upcoming');
 
         setUpcomingMeetings(upcoming);
         setCompletedMeetings(completed);

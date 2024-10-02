@@ -16,7 +16,7 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
       title, startDate, startTime, notificationTime, userId
     };
 
-    console.log("meting data", meetingData)
+    console.log("meeting data", meetingData)
   
     try {
       const response = await fetch('https://vidtalk.onrender.com/api/scheduleMeeting', {
@@ -50,6 +50,8 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
       <h2 className="text-2xl font-semibold mb-4 text-white">Schedule Meeting</h2>
       <X size={32} onClick={() => { setScheduleMeeting(false); }} style={{ backgroundColor: '#D60010', padding: '0.3rem', borderRadius: '5px', cursor: 'pointer' }} />
       </div>
+      <p className='text-base text-gray-100 mb-5 mt-2'>Scheduled meetings will automatically be marked completed after 1 hour of scheduled time if no one shows up in the meeting!</p>
+
 
         <div className="mb-8">
           <label className="block text-gray-100 text-sm font-medium mb-2" htmlFor="title">

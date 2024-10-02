@@ -1,9 +1,10 @@
 import React from 'react';
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 const NotesPage = () => {
-  const router = useNavigate();
-  const { content } = useParams(); 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const content = queryParams.get('content');
 
   return (
     <div className='mt-20 mb-10 ml-28 mr-28'>
