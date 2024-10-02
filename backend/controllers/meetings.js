@@ -180,9 +180,15 @@ exports.scheduleMeeting=async (req, res) => {
 
         const meetingDateTime = new Date(`${startDate}T${startTime}`);
         const notificationTimeBeforeMeeting = new Date(meetingDateTime.getTime() - notificationTime * 60000);
+        const checkParticipantsTime = new Date(meetingDateTime.getTime() + 60 * 60000); 
+
 
         scheduleEmailNotification(meeting, notificationTimeBeforeMeeting, notificationTime);
         console.log('Meeting sent to scheduler');
+
+
+        scheduleCheckForParticipants(meeting, checkParticipantsTime);
+        console.log('Meeting check-for-participants job scheduled');
 
         return res.status(200).json({ message: 'Meeting scheduled successfully', meeting });
     } catch (error) {
@@ -249,3 +255,42 @@ const sendEmailNotification = async ({ to, subject, html }) => {
         throw new Error('Error sending email');
     }
 };
+
+
+function scheduleCheckForParticipants(meeting, checkTime) {
+  const { roomId } = meeting;
+  console.log('Scheduling check for participants for Room ID:', roomId);
+
+  const currentTime = new Date();
+  const delay = checkTime.getTime() - currentTime.getTime();
+
+  if (delay > 0) {
+      setTimeout(async () => {
+          try {
+              const meetingToCheck = await Meeting.findOne({ roomId });
+
+              if (!meetingToCheck) {
+                  console.log('Meeting not found for Room ID:', roomId);
+                  return;
+              }
+
+              if (meetingToCheck.status === 'completed') {
+                  console.log('Meeting already completed for Room ID:', roomId);
+                  return;
+              }
+
+              if (meetingToCheck.participants.length === 0) {
+                  meetingToCheck.status = 'completed';
+                  await meetingToCheck.save();
+                  console.log(`Meeting ${roomId} marked as completed due to no participants.`);
+              } else {
+                  console.log(`Meeting ${roomId} has participants, no action taken.`);
+              }
+          } catch (error) {
+              console.error('Error checking for participants:', error);
+          }
+      }, delay);
+  } else {
+      console.error('Check for participants time has already passed.');
+  }
+}
