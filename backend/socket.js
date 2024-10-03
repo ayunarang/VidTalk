@@ -25,6 +25,16 @@ function initSocket(io) {
       console.log("Message sent from server", message);
     });
 
+    socket.on("user-toggle-video", (userId, roomId) => {
+      console.log(`${users[userId]} (${userId}) toggled their video`);
+      socket.to(roomId).emit("user-toggle-video", userId);
+    });
+
+    socket.on("user-toggle-audio", (userId, roomId) => {
+      console.log(`${users[userId]} (${userId}) toggled their audio`);
+      socket.to(roomId).emit("audio-toggled", userId); 
+    });
+
     socket.on("user-leave", (userId, roomId) => {
       console.log(`${users[userId]} (${userId}) is leaving room ${roomId}`);
       socket.broadcast.to(roomId).emit("user-leave", userId);

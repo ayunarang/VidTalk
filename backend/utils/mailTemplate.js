@@ -9,14 +9,14 @@ function send_mail(username, roomId, notificationTime) {
       <title>Scheduled Meeting Alert!</title>
     </head>
     <body>
-      <div style="padding:2.2rem; background-color: #F9F9F9; max-width: 800px; text-align: center;" class="outer-container">
-        <div style="background-color: white; padding:1.5rem; margin: 2.2rem;" class="mail-content-container">
-          <p style="font-size: 1.2rem; margin-bottom: 1rem; font-weight: 500; text-align:left" class="username">Hey ${username},</p>
-          <p style="font-size: 1rem; text-align:left" class="mail-content">Your scheduled meeting is going to start in ${notificationTime} minutes. Below is more information about this meeting:</p>
-          <p style="font-size: 1.5rem; font-weight: 600; margin: 1.5rem 0;" class="roomid">Room ID:</p>
-          <p style="color: #1a73e8; font-size:0.85rem;">${roomId}</p>
+      <div style="padding:1rem 0rem; background-color: #F9F9F9; max-width: 800px; text-align: center;" class="outer-container">
+        <div style="background-color: white; padding:1.5rem; margin: 0.5rem 0.5rem 1rem 0.5rem;" class="mail-content-container">
+          <p style="font-size: 1.1rem; margin-bottom: 1rem; font-weight: 500; text-align:left" class="username">Hey ${username},</p>
+          <p style="font-size: 0.9rem; text-align:left" class="mail-content">Your scheduled meeting is going to start in ${notificationTime} minutes. Below is more information about this meeting:</p>
+          <p style="font-size: 1.2rem; font-weight: 600; margin: 1.5rem 0 1rem 0;" class="roomid">Room ID:</p>
+          <p style="color: #1a73e8; font-size:0.9rem;">${roomId}</p>
           <hr style="width:100%;" class="hr">
-          <p style="margin: 1.2rem 1rem 1rem 1rem; font-size: 0.8rem" class="extra-info">This is an automated notification. If you are already in the meeting, please ignore.</p>
+          <p style="margin: 1.2rem 1rem 1rem 1rem; font-size: 0.78rem" class="extra-info">This is an automated notification. If you are already in the meeting, please ignore.</p>
         </div>
         <div style="font-size: 0.7rem; font-weight: 400; color: #B8C4CB;" class="last-content">Sent by VidTalk</div>
       </div>

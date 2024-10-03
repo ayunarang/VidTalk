@@ -154,9 +154,10 @@ exports.getMeetings= async (req, res) => {
 exports.scheduleMeeting=async (req, res) => {
     const { title, startDate, startTime, notificationTime, userId } = req.body;
 
-    if (!title || !startDate || !startTime || !userId) {
+    if (!title || !startDate || !startTime || !userId || !notificationTime) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
+    console.log(req.body);
 
     const roomId = v4(); 
 
@@ -180,7 +181,7 @@ exports.scheduleMeeting=async (req, res) => {
 
         const meetingDateTime = new Date(`${startDate}T${startTime}`);
         const notificationTimeBeforeMeeting = new Date(meetingDateTime.getTime() - notificationTime * 60000);
-        const checkParticipantsTime = new Date(meetingDateTime.getTime() + 60 * 60000); 
+        const checkParticipantsTime = new Date(meetingDateTime.getTime() + 2 * 60000); 
 
 
         scheduleEmailNotification(meeting, notificationTimeBeforeMeeting, notificationTime);
@@ -199,10 +200,11 @@ exports.scheduleMeeting=async (req, res) => {
 
 function scheduleEmailNotification(meeting, sendTime, notificationTime) {
     const { host, roomId } = meeting;
-    console.log('Host:', host, 'Room ID:', roomId);
 
     const currentTime = new Date();
     const delay = sendTime.getTime() - currentTime.getTime();
+
+    console.log(delay);
 
     if (delay > 0) {
         setTimeout(async () => {
@@ -212,7 +214,6 @@ function scheduleEmailNotification(meeting, sendTime, notificationTime) {
                     console.log('User not found or email not available');
                     return;
                 }
-
                 const username = user.name;
 
                 await sendEmailNotification({

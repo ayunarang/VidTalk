@@ -17,7 +17,7 @@ const MeetingSchema = new mongoose.Schema({
   ],
   status: { 
     type: String, 
-    enum: ['upcoming', 'ongoing', 'completed'], // Define the status types
+    enum: ['upcoming', 'ongoing', 'completed'], 
   },
   startDate: {
     type: String,

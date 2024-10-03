@@ -6,12 +6,14 @@ const cors = require("cors");
 const mongoDb = require("./config/db.js");
 const { initSocket } = require("./socket.js");
 const path = require("path");
+const ORIGIN = process.env.ORIGIN;
+
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'https://vidtalk.onrender.com',
+    origin: ORIGIN,
     methods: ['GET', 'POST']
   }
 });
@@ -19,7 +21,7 @@ const io = new Server(server, {
 app.use(express.json());
 
 const corsOptions = {
-  origin: "https://vidtalk.onrender.com",
+  origin: ORIGIN,
   credentials: true 
 };
 app.use(cors(corsOptions));
@@ -47,7 +49,7 @@ if (process.env.NODE_ENV === 'production') {
 
 initSocket(io); 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 server.listen(PORT, () => {
   const baseUrl = process.env.NODE_ENV === 'production' 
     ? 'https://vidtalk.onrender.com/' 
