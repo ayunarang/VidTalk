@@ -21,6 +21,20 @@ const Room = () => {
   const { peer, myId } = usePeer();
   const { stream, setStream } = useMediaStream();
   const { username, userId } = useUsername();
+  const [isMobile, setIsMobile] = useState(false);
+
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 992);
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
 
   const {
@@ -161,40 +175,40 @@ const Room = () => {
 
   const handleParticipantJoined = useCallback(async (dbId) => {
     try {
-      const response = await fetch('https://vidtalk.onrender.com/api/meetings/update', {
+      const response = await fetch(`${process.env.REACT_APP_CLIENT_URL}/api/meetings/update`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ dbId, roomId }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error adding user: ${response.statusText}`);
       }
-  
+
       const data = await response.json();
       console.log(data);
     } catch (error) {
       console.error('Failed to add user to the database:', error);
     }
-  }, [roomId]); 
-  
+  }, [roomId]);
+
   useEffect(() => {
     if (!socket || !peer || !stream) return;
-  
+
     const handleUserConnected = (newUserId, newUsername, dbId) => {
       console.log(`User connected: ${newUsername} (${newUserId}) in room ${roomId}`);
-  
+
       setUsernames((prev) => ({
         ...prev,
         [newUserId]: newUsername,
       }));
-  
+
       handleParticipantJoined(dbId);
-  
+
       const call = peer.call(newUserId, stream, { metadata: { username: username } });
-  
+
       call.on("stream", (incomingStream) => {
         console.log(`Incoming stream from ${newUsername} (${newUserId})`);
         setPlayers((prev) => ({
@@ -207,25 +221,25 @@ const Room = () => {
             username: newUsername,
           },
         }));
-  
+
         setUsers((prev) => ({
           ...prev,
           [newUserId]: call,
         }));
       });
-  
+
       call.on("error", (err) => {
         console.error(`Call error with user ${newUserId}:`, err);
       });
     };
-  
+
     socket.on("user-connected", handleUserConnected);
-  
+
     return () => {
       socket.off("user-connected", handleUserConnected);
     };
-  }, [peer, setPlayers, socket, stream, roomId, handleParticipantJoined, username]); 
-  
+  }, [peer, setPlayers, socket, stream, roomId, handleParticipantJoined, username]);
+
 
   useEffect(() => {
     if (!socket) return;
@@ -383,7 +397,7 @@ const Room = () => {
   };
 
   const inactivePlayersCount = Object.keys(nonHighlightedPlayers).length;
-  const translationPercentage = inactivePlayersCount === 0 ? '14%' : '10%'; 
+
   const participants = [
 
     { id: myId, username: username },
@@ -396,23 +410,21 @@ const Room = () => {
 
 
   return (
-    <div className="bg-[#1E1F22]">
-      <div className={styles.topBar}>
+    <div className="bg-[#1E1F22] h-screen w-full">
+      <div className="flex justify-between px-5 py-4 bg-[#252525] border-b border-[#333]">
         <h1
           onClick={() => navigate("/")}
-          className={styles.logo}>VIDTALK</h1>
+          className="font-extrabold text-3xl text-white cursor-pointer"
+        >
+          VIDTALK
+        </h1>
       </div>
 
+
+
+
       <div
-        style={{
-          display: 'flex',
-          transition: 'transform 0.5s ease-in-out',
-          transform: isChatVisible ? `translateX(${translationPercentage})` : 'translateX(25%)', 
-          maxHeight: '70%',
-          marginTop: '5rem',
-        }}
-        className={styles.activePlayerContainer}
-      >
+        className={` ${!isChatVisible ? 'md:translate-x-44' : (inactivePlayersCount > 2 ? 'md:translate-x-44' : 'md:translate-x-14')} ${styles.activePlayerContainer}`}>
         {playerHighlighted && (
           <Player
             url={playerHighlighted.url}
@@ -425,11 +437,34 @@ const Room = () => {
         )}
       </div>
 
+      {
+    (isMobile) ? <div
+      style={{
+        right: isChatVisible ? '380px' : '',
+        transition: 'right 0.5s ease-in-out',
+      }}
+      className={styles.inActivePlayerContainerMobile}
+    >
+      {Object.keys(nonHighlightedPlayers).map((playerId) => {
+        const { url, muted, playing, screenShare, username } = nonHighlightedPlayers[playerId];
+        return (
+          <Player
+            key={playerId}
+            url={url}
+            muted={muted}
+            playing={playing}
+            isActive={false}
+            screenShare={screenShare}
+            username={username}
+          />
+        );
+      })}
+    </div> :
+
+    <div
+      className={` ${!isChatVisible ? 'md:translate-x-0' : (inactivePlayersCount > 2 ? 'md:translate-x-0' : 'md:-translate-x-28')} ${styles.inActivePlayerContainerWrapper}`}
+    >
       <div
-        style={{
-          right: isChatVisible ? '380px' : '30px',
-          transition: 'right 0.5s ease-in-out',
-        }}
         className={styles.inActivePlayerContainer}
       >
         {Object.keys(nonHighlightedPlayers).map((playerId) => {
@@ -442,11 +477,13 @@ const Room = () => {
               playing={playing}
               isActive={false}
               screenShare={screenShare}
-              username={username} 
+              username={username}
             />
           );
         })}
-      </div>
+      </div></div>
+  }
+
 
       <Bottom
         muted={playerHighlighted?.muted}
@@ -467,16 +504,17 @@ const Room = () => {
       />
 
       <div
-        className={`absolute right-0 top-0 bottom-0 w-96 h-full bg-white shadow-lg z-50 transition-transform duration-700 ease-in-out transform ${isChatVisible ? "translate-x-0" : "translate-x-full"}`}
-        style={{ overflowY: 'auto' }} 
+        className={`fixed right-0 top-0 bottom-0 w-96 h-full bg-[#1e1e1e] shadow-lg z-50 transition-transform duration-700 ease-in-out transform ${isChatVisible ? "translate-x-0" : "translate-x-full"
+          }`}
+        style={{ overflowY: 'auto' }}
       >
-        <Chat username={username} myId={myId} roomId={roomId} />
+        <Chat username={username} myId={myId} roomId={roomId} setChatVisible={setChatVisible} isChatVisible={isChatVisible} />
       </div>
 
       <ParticipantList participants={participants} username={username} />
 
-      {isNotesVisible ? <Notes isNotesVisible={isNotesVisible} setisNotesVisible={setisNotesVisible} /> : null}
-    </div>
+  { isNotesVisible ? <Notes isNotesVisible={isNotesVisible} setisNotesVisible={setisNotesVisible} /> : null }
+    </div >
   );
 
 

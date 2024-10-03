@@ -51,13 +51,13 @@ const Player = (props) => {
           className={styles.reactPlayer}
         />
       ) : (
-        <UserSquare2 className={styles.userIcon} size={isActive ? 400 : 150} />
+        <UserSquare2 className={styles.userIcon} size={isActive ? 400 : 200} />
       )}
 
       {isHovering && (
         <Scan 
           className={styles.enlargeIcon} 
-          size={50} 
+          
           onClick={toggleFullscreen} 
         />
       )}
@@ -68,9 +68,9 @@ const Player = (props) => {
 
       {!isActive ? (
         muted ? (
-          <MicOff className={styles.icon} size={35} />
+          <MicOff className={styles.icon} />
         ) : (
-          <Mic className={styles.icon} size={35} />
+          <Mic className={styles.icon} />
         )
       ) : undefined}
     </div>

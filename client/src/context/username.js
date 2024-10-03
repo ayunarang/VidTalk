@@ -29,7 +29,7 @@ export const UsernameProvider = ({ children }) => {
         if (!isRegistered) {
           const registerUser = async () => {
             try {
-              const response = await axios.post('https://vidtalk.onrender.com/api/auth/google-signin', {
+              const response = await axios.post(`${process.env.REACT_APP_CLIENT_URL}/api/auth/google-signin`, {
                 googleId: decodedToken.sub,  
                 name: decodedToken.name,
                 email: decodedToken.email,

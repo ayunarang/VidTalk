@@ -23,7 +23,7 @@ const usePlayer = (myId, roomId, peer, stream) => {
 
   const handleUserLeave = async (note) => {
     try {
-      const response = await fetch(`https://vidtalk.onrender.com/api/meetings/${roomId}`, {
+      const response = await fetch(`${process.env.REACT_APP_CLIENT_URL}/api/meetings/${roomId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

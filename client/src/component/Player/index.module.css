@@ -3,6 +3,12 @@
   transition: transform 0.3s ease;
 }
 
+@media screen and (max-width: 768px) {
+  .playerContainer{
+    width: fit-content;
+  }
+}
+
 .active {
   @apply rounded-lg;
   -webkit-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.75);
@@ -18,13 +24,14 @@
 }
 
 .icon {
-  @apply text-white absolute left-2 bottom-2;
+  @apply text-white absolute left-2 bottom-2 md:p-[8px] p-[4px] md:w-[35px] md:h-[35px] w-[20px] h-[20px];
+
+
   background-color: #5270EF;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8px;
 }
 
 .user {
@@ -34,9 +41,11 @@
 .userIcon {
   color: #fff;
   margin: auto;
+  padding:4rem;
 }
 
 .username {
+  @apply md:text-[17px] text-[10px];
   position: absolute;
   bottom: 12px;
   right: 0;
@@ -45,7 +54,6 @@
   color: #fff;
   padding: 2px 8px;
   border-radius: 4px;
-  font-size: 17px;
   white-space: normal;
   max-width: calc(100% - 40px);
 }
@@ -64,6 +72,7 @@
 }
 
 .enlargeIcon {
+  @apply md:w-[50px] md:h-[50px] w-[30px] h-[30px];
   position: absolute;
   top: 10px;
   right: 10px;

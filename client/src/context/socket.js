@@ -13,7 +13,7 @@ export const SocketProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const connection = io('https://vidtalk.onrender.com/'); 
+        const connection = io(`${process.env.REACT_APP_CLIENT_URL}`); 
 
         connection.on('connect', () => {
             console.log('Socket connected:', connection.id);

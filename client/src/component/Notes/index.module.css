@@ -1,21 +1,18 @@
 
 .notes{
-    @apply overflow-y-auto my-2;
-    height: 500px;
+    @apply overflow-y-auto my-2 md:h-[500px];
 }
 
 .notes::-webkit-scrollbar {
     width: 19px;
 }
  
-/* Track */
 .notes::-webkit-scrollbar-track {
     background: 'transparent';
     border-radius: 40px;
     border: solid 3px transparent;
 }
  
-/* Handle */
 .notes::-webkit-scrollbar-thumb {
     background: #a2a2a2;
     border-radius: 40px;
@@ -25,7 +22,6 @@
 
 }
  
-/* Handle on hover */
 .notes::-webkit-scrollbar-thumb:hover {
     background: #a2a2a2;
     background-clip: content-box;
@@ -34,6 +30,7 @@
 }
 
 .toolBarButtons{
+    @apply md:text-xl text-sm;
     padding: 0.3rem 0.15rem;
     color: black;
     font-weight: 600;

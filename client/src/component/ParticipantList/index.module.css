@@ -1,41 +1,36 @@
 
 .participantWrapper {
+  @apply absolute md:left-6 left-3 md:bottom-8 bottom-24 mx-auto transition-all duration-300 ease-in-out;
     display: inline-block;
     position: absolute;
-    left:1.5rem;
-    bottom: 2rem;
-    height: 60px;
-    width: 60px;
   }
   
   .participantIcon {
+    @apply md:h-[60px] md:w-[60px] h-14 w-14 md:p-4 p-4;
     cursor: pointer;
     transition: transform 0.5s ease;
     border-radius: 50%;
-    padding: 1rem;
+
     justify-content: center;
     align-items: center;
     background-color: #5270EF;
     color: white;
-    height: 60px;
-    width: 60px;
   }
   
   .rotateIcon {
     transform: rotate(-90deg); 
   }
   .participantPopup {
+    @apply md:px-[10px] md:py-[20px] px-4 py-3 md:min-w-[250px] min-w-[180px];
     position: absolute;
     bottom: 100%; 
     margin-bottom: 0.4rem;
     left: 18px; 
     background-color: #313339;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px 20px;
     border-radius: 8px;
     z-index: 100;
     color: black;
-    width:250px;
     word-break: break-all;
     word-wrap: break-word;
   
@@ -58,21 +53,22 @@
   }
 
   .participantheading{
-    font-size: 1.5rem;  
+    @apply md:text-2xl text-white text-lg font-bold mb-8;
     font-weight: 600;
     color: white;
     margin-bottom: 10px;
   }
   
   .participantPopup ul li {
+    @apply md:text-[1.2rem] text-white text-base;
+
     margin: 5px 0;
-    font-size: 1.2rem;
     font-weight: 400;
     display: flex;
     flex-direction: row;
     gap:3rem;
 
-    justifyContent: 'space-between';
-     alignItems: 'center';
+    justify-content: 'space-between';
+    align-items: 'center';
   }
   

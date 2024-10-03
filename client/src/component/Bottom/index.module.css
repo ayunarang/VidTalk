@@ -1,26 +1,21 @@
 .bottomMenu {
+  @apply z-10 absolute left-0 right-0 md:mx-auto md:w-fit w-full md:p-2.5 px-8 pb-5 pt-3 flex md:justify-between items-center md:rounded-full md:bottom-3.5 bottom-0 md:left-[50%];
   display: flex;
   justify-content: space-between;
-  width: fit-content;
-  padding: 10px;
   background-color: #313339;
-  border-radius: 50px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .icon {
-  padding: 15px;
+  @apply md:w-12 md:h-12 w-12 h-12 p-3 md:p-3 md:mx-4 m-0;
   border-radius: 50%;
   background-color: #1E1F22;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 54px;
-  height: 54px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 1rem;
 }
 
 .icon:hover {
@@ -42,8 +37,7 @@
 }
 
 .copySection, .leaveSection {
-  width: max-content;
-  padding: 10px 1.7rem;
+  @apply w-5 md:w-max md:m-4 m-1 md:px-7 md:py-2.5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,4 +46,18 @@
   color: white;
   font-weight: 600;
   font-size: 1.2rem;
+}
+
+
+.moreDropdown {
+  position: absolute;
+  right:1rem;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10;
+  margin-bottom: 2rem;
 }

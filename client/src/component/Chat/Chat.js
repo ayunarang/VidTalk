@@ -5,7 +5,7 @@ import { Download, Forward } from 'lucide-react';
 import { useChat } from "../../context/chat";
 import { useUsername } from "../../context/username";
 
-const Chat = ({ username, myId, roomId, isSavedChat, customChat, chatOpen }) => {
+const Chat = ({ username, myId, roomId, isSavedChat, customChat, chatOpen, setCustomChat, setOpenComponent, isChatVisible, setChatVisible}) => {
   const {socket} = useSocket(); 
   useEffect(() => {
     if (socket) {
@@ -61,6 +61,17 @@ const Chat = ({ username, myId, roomId, isSavedChat, customChat, chatOpen }) => 
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatHeader}>
+        <p 
+        className="mr-2 cursor-pointer"
+        onClick={()=>{
+          if(customChat){
+            setOpenComponent(null);
+            setCustomChat(null);
+          }
+          else if(isChatVisible){
+            setChatVisible(false)
+          }
+        }}>x</p>
         <h2>Group Chat</h2>
         {(isSavedChat) && (
           <div onClick={() => handleDownload()}>

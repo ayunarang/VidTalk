@@ -123,8 +123,8 @@ const Notes = ({ isNotesVisible, setisNotesVisible }) => {
     }, [isNotesVisible, editorState]);
 
     return (
-        <div className='fixed z-50 top-[5rem] left-5 w-[700px] h-[600px] shadow-lg bg-[#202531] pl-4 py-1 border border-[#3a3a3a] rounded-lg overflow-hidden break-words text-wrap flex flex-row'>
-            <div className="toolbar rounded-lg flex my-2 flex-col max-w-fit border-black bg-[#D3D3D3] py-2 px-2 justify-center align-middle gap-1">
+        <div className='fixed z-50 top-[5rem] left-5 max-w-sm h-[500px] md:max-w-[700px] md:h-[650px] shadow-lg bg-[#202531] pl-4 py-1 border border-[#3a3a3a] rounded-lg overflow-hidden break-words text-wrap flex flex-row'>
+            <div className="toolbar rounded-lg flex my-2 flex-col max-w-fit border-black bg-[#D3D3D3] md:py-2 md:px-2 p-1 justify-center align-middle gap-1">
                 <button className={styles.toolBarButtons} style={{ fontSize: '1.5rem' }} onClick={() => applyBlockType('header-one')}>H1</button>
                 <button className={styles.toolBarButtons} style={{ fontSize: '1.2rem' }} onClick={() => applyBlockType('header-two')}>H2</button>
                 <button className={styles.toolBarButtons} style={{ fontSize: '0.85rem' }} onClick={() => applyBlockType('header-three')}>H3</button>
@@ -139,17 +139,19 @@ const Notes = ({ isNotesVisible, setisNotesVisible }) => {
                 <button className={styles.toolBarButtons} onClick={() => applyInlineStyle('PINK_BG')} style={{ backgroundColor: '#F3A6C8' }}>H</button>
                 <button className={styles.toolBarButtons} onClick={() => applyInlineStyle('BLUE_BG')} style={{ backgroundColor: '#95C9F3' }}>H</button>
             </div>
-            <div className='w-11/12 px-4 py-2'>
+            <div className='md:w-[90%] w-[85%] px-4 py-2'>
                 <div className='flex flex-row justify-between w-full mt-2'>
                     <h2 className="text-lg font-semibold text-white">Meeting Notes</h2>
-                    <X size={32} onClick={() => { setisNotesVisible(false); }} style={{ backgroundColor: '#D60010', padding: '0.3rem', borderRadius: '5px', cursor: 'pointer' }} />
+                    <X 
+                    className='md:h-8 md:w-8 font-bold'
+                    onClick={() => { setisNotesVisible(false); }} style={{ backgroundColor: '#D60010', padding: '0.3rem', borderRadius: '5px', cursor: 'pointer' }} />
                 </div>
                 {(NotesInfo) ?
-                    <div className='flex flex-row justify-between w-full bg-[#1f2228] mb-2'>
-                        <p className='text-base text-gray-100'>Notes will automatically be saved if you close the notes or exit the meeting :)</p>
-                        <button
+                    <div className='flex flex-row gap-2 w-full bg-[#1f2228] mb-2 mt-2 py-2 px-4 items-start '>
+                        <p className='text-[11px] md:text-base text-gray-100'>Notes will automatically be saved if you close the notes or exit the meeting :)</p>
+                        <X
                             onClick={() => { setNotesInfo(false) }}
-                            className='border-0 outline-none text-gray-100'>x</button>
+                            className='border-0 outline-none text-gray-100 h-5 w-5'></X>
                     </div>
                     : ''}
 
