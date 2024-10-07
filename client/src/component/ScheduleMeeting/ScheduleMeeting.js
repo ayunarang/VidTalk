@@ -44,14 +44,14 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
 
   return (
     <div className="fixed inset-0 bg-[#161614] bg-opacity-70 flex items-center justify-center z-50">
-      <div className="bg-[#252525] rounded-lg p-6 font-white w-2/4"
+      <div className="bg-[#252525] rounded-lg p-6 font-white md:w-2/4 w-96"
           style={{height: 'fit-content' }} 
 >
       <div className='flex justify-between'>
-      <h2 className="text-3xl font-semibold mb-4 text-white">Schedule Meeting</h2>
+      <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-white">Schedule Meeting</h2>
       <X size={32} onClick={() => { setScheduleMeeting(false); }} style={{ backgroundColor: '#D60010', padding: '0.3rem', borderRadius: '5px', cursor: 'pointer' }} />
       </div>
-      <p className='text-lg text-gray-100 mb-5 mt-2'>Scheduled meetings will automatically be marked completed after <span className='font-bold'>1 hour</span> of scheduled time if no one shows up in the meeting.</p>
+      <p className='text-base md:text-lg text-gray-100 mb-5 mt-2'>Scheduled meetings will automatically be marked completed after <span className='font-bold'>1 hour</span> of scheduled time if no one shows up in the meeting.</p>
 
 
         <div className="mb-8">
@@ -63,7 +63,7 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full outline-none px-4 py-4 border text-black border-gray-300 rounded-lg text-xl"
+            className="w-full outline-none md:px-4 py-2 px-4 md:py-4 border text-black border-gray-300 rounded-lg  text-lg md:text-xl"
             placeholder="Enter meeting title"
           />
         </div>
@@ -78,7 +78,7 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
               id="start-date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full outline-none px-4 py-4 text-black border border-gray-300 rounded-lg text-xl"
+              className="w-full outline-none md:px-4 py-2 px-4 md:py-4 text-black border border-gray-300 rounded-lgtext-lg md:text-xl"
             />
           </div>
 
@@ -91,7 +91,7 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
               id="start-time"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
-              className="w-full px-4 py-4 outline-none text-black border border-gray-300 rounded-lg text-xl"
+              className="w-full md:px-4 py-2 px-4 md:py-4 outline-none text-black border border-gray-300 rounded-lg text-lg md:text-xl"
             />
           </div>
 
@@ -108,7 +108,7 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
               id="notification"
               value={notification}
               onChange={(e) => setNotification(e.target.value)}
-              className="w-full px-4 py-4 outline-none border text-black border-gray-300 rounded-lg text-xl"
+              className="w-full md:px-4 py-2 px-4 md:py-4 outline-none border text-black border-gray-300 rounded-lg text-lg md:text-xl"
             >
               <option value="Email and SMS" className='text-lg'>Email</option>
             </select>
@@ -123,22 +123,22 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
               id="notification-time"
               value={notificationTime}
               onChange={(e) => setNotificationTime(e.target.value)}
-              className="w-full px-4 py-4 outline-none text-black border border-gray-300 rounded-lg text-xl"
+              className="w-full md:px-4 py-2 px-4 md:py-4 outline-none text-black border border-gray-300 rounded-lg text-lg md:text-xl"
             />
           </div>
         </div>
 
         <div className="flex justify-end space-x-5">
           <button
-            className="px-6 py-4 text-black bg-gray-200 hover:bg-gray-300 rounded-lg text-xl transition duration-300 font-semibold"
+            className="md:px-6 md:py-4 py-3 px-5 text-black bg-gray-200 hover:bg-gray-300 rounded-lg text-lg md:text-xl transition duration-300 font-semibold"
             onClick={() => {setScheduleMeeting(false)}}
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="px-6 py-4 text-white bg-[#5270EF] hover:bg-[#4463ef]
-            rounded-lg text-xl transition duration-300 font-semibold"
+            className="md:px-6 md:py-4 py-3 px-5 text-white bg-[#5270EF] hover:bg-[#4463ef]
+            rounded-lg text-lg md:text-xl transition duration-300 font-semibold"
           >
             Save Meeting
           </button>
