@@ -2,7 +2,7 @@
   @apply absolute left-0 right-0 mx-auto transition-all duration-300 ease-in-out;
   width: calc(100% - 200px);
   top: 20px;
-  bottom: 50px;
+  bottom: 100px;
   display: flex;
   transition: transform 0.5s ease-in-out;
   max-height: 70%;
@@ -19,7 +19,7 @@
 
 
 .inActivePlayerContainerWrapper {
-  @apply absolute gap-3 overflow-hidden transition-all duration-300 ease-in-out;
+  @apply absolute gap-3 overflow-y-auto transition-all duration-300 ease-in-out;
   width: fit-content;
   height: 90%;
   right: 20px;
@@ -34,7 +34,7 @@
   flex-direction: column;
   gap:12px;
   flex-wrap: wrap;
-  width: 325px;
+  width: 310px;
 }
 
 

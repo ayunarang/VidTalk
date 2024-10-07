@@ -99,13 +99,15 @@ const Bottom = (props) => {
 
   return (
     <div
-      className={`${styles.bottomMenu} md:translate-x-[-72%] ${isChatVisible ? 'md:translate-x-[-72%]' : 'md:translate-x-[-56.5%]'} transition-transform duration-500 ease-in-out`}
+      className={`${styles.bottomMenu} transition-transform duration-500 ease-in-out md:mb-3`}
       style={{
         position: "absolute",
         marginTop: "2rem",
         display: "flex",
-        justifyContent: "space-between",
-      }}
+        left: '50%',
+        bottom:0,
+        transform: `translateX(${isChatVisible ? '-70%' : '-50%'})`,
+            }}
     >
 
       {(!isMobile) ? (
@@ -114,9 +116,9 @@ const Bottom = (props) => {
             <div className="flex items-center cursor-pointer">
               <span className="cursor-pointer">{truncatedRoomId}</span>
               {isCopied ? (
-                <CheckCheck className="ml-3" />
+                <CheckCheck className="ml-3 md:w-5 md:h-5 w-5 h-5 " />
               ) : (
-                <Copy className="ml-3 cursor-pointer" />
+                <Copy className="ml-3 cursor-pointer md:w-5 md:h-5 w-5 h-5 " />
               )}
             </div>
           </CopyToClipboard>
@@ -125,9 +127,9 @@ const Bottom = (props) => {
         <div>
           <CopyToClipboard text={roomId} onCopy={handleCopy}>
             {isCopied ? (
-              <CheckCheck className="ml-3" />
+              <CheckCheck className="ml-3 md:w-5 md:h-5 w-5 h-5 " />
             ) : (
-              <Copy className="ml-3 cursor-pointer" />
+              <Copy className="ml-3 cursor-pointer md:w-5 md:h-5 w-5 h-5 " />
             )}
           </CopyToClipboard>
         </div>

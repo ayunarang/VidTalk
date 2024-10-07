@@ -1,5 +1,5 @@
 .bottomMenu {
-  @apply z-10 absolute left-0 right-0 md:mx-auto md:w-fit w-full md:p-2.5 px-8 pb-5 pt-3 flex md:justify-between items-center md:rounded-full md:bottom-3.5 bottom-0 md:left-[50%];
+  @apply z-10 md:w-fit w-full md:p-2.5 px-8 pb-5 pt-3 flex  items-center md:rounded-full ;
   display: flex;
   justify-content: space-between;
   background-color: #313339;
@@ -7,7 +7,7 @@
 }
 
 .icon {
-  @apply md:w-12 md:h-12 w-12 h-12 p-3 md:p-3 md:mx-4 m-0;
+  @apply md:w-10 md:h-10 w-12 h-12 p-3 md:p-3 md:mx-4 m-0;
   border-radius: 50%;
   background-color: #1E1F22;
   color: white;
@@ -45,7 +45,7 @@
   border-radius: 35px;
   color: white;
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
 }
 
 

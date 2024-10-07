@@ -188,7 +188,7 @@ const Room = () => {
       }
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.error('Failed to add user to the database:', error);
     }
@@ -422,9 +422,10 @@ const Room = () => {
 
 
 
-
       <div
-        className={` ${!isChatVisible ? 'md:translate-x-44' : (inactivePlayersCount > 2 ? 'md:translate-x-44' : 'md:translate-x-14')} ${styles.activePlayerContainer}`}>
+        className={`justify-center
+${(inactivePlayersCount > 0) ? (isChatVisible? 'md:-translate-x-96': 'md:-translate-x-64'):(isChatVisible && 'md:-translate-x-20')}
+         ${styles.activePlayerContainer}`}>
         {playerHighlighted && (
           <Player
             url={playerHighlighted.url}
