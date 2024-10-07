@@ -7,7 +7,7 @@ const nodemailer= require('nodemailer');
 
 exports.createMeeting = async (req, res) => {
   // console.log('POST /meetings request received with body:', req.body);
-    const { roomId, title, host, participants, userId } = req.body;
+    // const { roomId, title, host, participants, userId } = req.body;
   
     try {
       const newMeeting = new Meeting({
@@ -157,7 +157,7 @@ exports.scheduleMeeting=async (req, res) => {
     if (!title || !startDate || !startTime || !userId || !notificationTime) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
-    console.log(req.body);
+    // console.log(req.body);
 
     const roomId = v4(); 
 
@@ -204,7 +204,7 @@ function scheduleEmailNotification(meeting, sendTime, notificationTime) {
     const currentTime = new Date();
     const delay = sendTime.getTime() - currentTime.getTime();
 
-    console.log(delay);
+    // console.log(delay);
 
     if (delay > 0) {
         setTimeout(async () => {
