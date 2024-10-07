@@ -48,7 +48,7 @@ const MeetingsDashboard = () => {
       const response = await fetch(`${process.env.REACT_APP_CLIENT_URL}/api/users/${userId}/meetings`);
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
 
       if (Array.isArray(data)) {
         const upcoming = data.filter(meeting => meeting.status === 'upcoming');
@@ -93,17 +93,17 @@ const MeetingsDashboard = () => {
       setNote(null);
     } else {
       setOpenComponent("notes");
-      console.log(meeting._id);
+      // console.log(meeting._id);
 
       const participant = meeting.participants.find(participant => participant._id === userId);
-      console.log(participant);
+      // console.log(participant);
 
       if (participant) {
         const note = participant.notes.find(note => note.meeting === meeting._id);
-        console.log(note);
+        // console.log(note);
 
         setNote(note ? note.note : null);
-        console.log(note);
+        // console.log(note);
       } else {
         setNote(null);
       }
@@ -111,7 +111,7 @@ const MeetingsDashboard = () => {
   };
 
   const toggleParticipants = (meeting) => {
-    console.log(meeting);
+    // console.log(meeting);
     if (openComponent === "participants") {
       setOpenComponent(null);
     } else {

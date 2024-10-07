@@ -9,7 +9,7 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
   const [notification, setNotification] = useState('Email');
   const [notificationTime, setNotificationTime] = useState(30);
   const {userId}= useUsername();
-  console.log(userId)
+  // console.log(userId)
 
   const handleSave = async () => {
     const meetingData = {

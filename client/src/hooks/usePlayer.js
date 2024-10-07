@@ -53,10 +53,10 @@ const usePlayer = (myId, roomId, peer, stream) => {
 
 
   const leaveRoom = () => {
-    console.log(note);
+    // console.log(note);
 
     const sanitizedNote= sanitizeHtml(note);
-    console.log(sanitizedNote);
+    // console.log(sanitizedNote);
       handleUserLeave(sanitizedNote);
       socket.emit('user-leave', myId, roomId);
       // console.log("Leaving room", roomId);
