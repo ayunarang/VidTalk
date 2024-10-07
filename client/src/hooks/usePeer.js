@@ -24,9 +24,9 @@ const usePeer = () => {
       setPeer(myPeer);
 
       myPeer.on("open", (id) => {
-        console.log(`Your peer ID is ${id}`);
+        // console.log(`Your peer ID is ${id}`);
         setMyId(id);
-        console.log(`Username in usePeer: ${username}`); 
+        // console.log(`Username in usePeer: ${username}`); 
         socket?.emit("join-room", roomId, id, JSON.stringify(username), userId); 
       });
     })();

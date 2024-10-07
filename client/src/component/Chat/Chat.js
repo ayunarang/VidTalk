@@ -7,17 +7,17 @@ import { useUsername } from "../../context/username";
 
 const Chat = ({ username, myId, roomId, isSavedChat, customChat, chatOpen, setCustomChat, setOpenComponent, isChatVisible, setChatVisible}) => {
   const {socket} = useSocket(); 
-  useEffect(() => {
-    if (socket) {
-        console.log("Socket connected in Room component", socket);
-    }
-}, [socket]);
+//   useEffect(() => {
+//     if (socket) {
+//         console.log("Socket connected in Room component", socket);
+//     }
+// }, [socket]);
 
 
   const { messages, addMessage } = useChat();
   const [newMessage, setNewMessage] = useState("");
   const { userId } = useUsername();
-  console.log(userId)
+  // console.log(userId)
 
   useEffect(() => {
     if (!socket) return;
@@ -43,7 +43,7 @@ const Chat = ({ username, myId, roomId, isSavedChat, customChat, chatOpen, setCu
   };
 
   const chatMessages = isSavedChat && customChat ? customChat : messages;
-  console.log(chatMessages)
+  // console.log(chatMessages)
 
   const handleDownload = () => {
     if (!customChat || customChat.length === 0) return;

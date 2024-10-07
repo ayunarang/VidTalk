@@ -42,11 +42,12 @@ export default function Home() {
       if (response.ok) {
         sethost(roomData.host);
         const data = await response.json();
-        console.log('Meeting created:', data);
+        // console.log('Meeting created:', data);
         navigate(`/${roomId}`);
-      } else {
-        console.error('Failed to create meeting');
-      }
+      } 
+      // else {
+      //   console.error('Failed to create meeting');
+      // }
     } catch (error) {
       console.error('Error creating meeting:', error);
     }

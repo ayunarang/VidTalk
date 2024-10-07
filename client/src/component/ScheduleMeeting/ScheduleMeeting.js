@@ -16,7 +16,7 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
       title, startDate, startTime, notificationTime, userId
     };
 
-    console.log("meeting data", meetingData)
+    // console.log("meeting data", meetingData)
   
     try {
       const response = await fetch(`${process.env.REACT_APP_CLIENT_URL}/api/scheduleMeeting`, {
@@ -29,11 +29,12 @@ const ScheduleMeeting = ({ ScheduleMeeting, setScheduleMeeting }) => {
   
       const result = await response.json();
       if (response.ok) {
-        console.log('Meeting scheduled:', result);
+        // console.log('Meeting scheduled:', result);
         setScheduleMeeting(false);
-      } else {
-        console.error('Failed to schedule meeting:', result.error);
-      }
+      } 
+      // else {
+      //   console.error('Failed to schedule meeting:', result.error);
+      // }
     } catch (error) {
       console.error('Error scheduling meeting:', error);
     }

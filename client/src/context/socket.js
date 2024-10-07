@@ -20,7 +20,7 @@ export const SocketProvider = ({ children }) => {
         });
 
         connection.on('connect_error', (err) => {
-            console.error('Connection error:', err);
+            // console.error('Connection error:', err);
             setError(err.message);
         });
 

@@ -60,7 +60,7 @@ const Room = () => {
   useEffect(() => {
     if (stream && !originalStreamRef.current) {
       originalStreamRef.current = stream;
-      console.log("Original camera stream initialized.");
+      // console.log("Original camera stream initialized.");
     }
   }, [stream]);
 
@@ -90,7 +90,7 @@ const Room = () => {
 
       screenStreamRef.current = screenStream;
       const screenVideoTrack = screenStream.getVideoTracks()[0];
-      console.log("Screen share started:", screenVideoTrack.label);
+      // console.log("Screen share started:", screenVideoTrack.label);
 
       Object.values(users).forEach((call) => {
         const sender = call.peerConnection.getSenders().find(
@@ -98,7 +98,7 @@ const Room = () => {
         );
         if (sender) {
           sender.replaceTrack(screenVideoTrack);
-          console.log(`Replaced video track for user: ${call.peer}`);
+          // console.log(`Replaced video track for user: ${call.peer}`);
         }
       });
 
@@ -112,32 +112,32 @@ const Room = () => {
       }));
 
       socket.emit("screen-share", roomId, myId);
-      console.log("Emitted 'screen-share' event.");
+      // console.log("Emitted 'screen-share' event.");
 
       screenVideoTrack.onended = () => {
-        console.log("Screen share track ended via browser.");
+        // console.log("Screen share track ended via browser.");
         stopScreenShare();
       };
 
       setIsScreenSharing(true);
 
-      console.log("Screen sharing started.");
+      // console.log("Screen sharing started.");
     } catch (err) {
       console.error("Error starting screen share:", err);
     }
   };
 
   const stopScreenShare = () => {
-    console.log("Stopping screen share.");
+    // console.log("Stopping screen share.");
     const originalStream = originalStreamRef.current;
 
     if (!originalStream) {
-      console.error("Original camera stream not found.");
+      // console.error("Original camera stream not found.");
       return;
     }
 
     const originalVideoTrack = originalStream.getVideoTracks()[0];
-    console.log("Original camera track:", originalVideoTrack.label);
+    // console.log("Original camera track:", originalVideoTrack.label);
 
     Object.values(users).forEach((call) => {
       const sender = call.peerConnection.getSenders().find(
@@ -145,7 +145,7 @@ const Room = () => {
       );
       if (sender) {
         sender.replaceTrack(originalVideoTrack);
-        console.log(`Reverted video track for user: ${call.peer}`);
+        // console.log(`Reverted video track for user: ${call.peer}`);
       }
     });
 
@@ -161,15 +161,15 @@ const Room = () => {
     if (screenStreamRef.current) {
       screenStreamRef.current.getTracks().forEach((track) => track.stop());
       screenStreamRef.current = null;
-      console.log("Screen stream stopped and cleared.");
+      // console.log("Screen stream stopped and cleared.");
     }
 
     socket.emit("screen-share-stop", roomId, myId);
-    console.log("Emitted 'screen-share-stop' event.");
+    // console.log("Emitted 'screen-share-stop' event.");
 
     setIsScreenSharing(false);
 
-    console.log("Screen sharing stopped.");
+    // console.log("Screen sharing stopped.");
   };
 
 
@@ -198,7 +198,7 @@ const Room = () => {
     if (!socket || !peer || !stream) return;
 
     const handleUserConnected = (newUserId, newUsername, dbId) => {
-      console.log(`User connected: ${newUsername} (${newUserId}) in room ${roomId}`);
+      // console.log(`User connected: ${newUsername} (${newUserId}) in room ${roomId}`);
 
       setUsernames((prev) => ({
         ...prev,
@@ -210,7 +210,7 @@ const Room = () => {
       const call = peer.call(newUserId, stream, { metadata: { username: username } });
 
       call.on("stream", (incomingStream) => {
-        console.log(`Incoming stream from ${newUsername} (${newUserId})`);
+        // console.log(`Incoming stream from ${newUsername} (${newUserId})`);
         setPlayers((prev) => ({
           ...prev,
           [newUserId]: {
@@ -256,7 +256,7 @@ const Room = () => {
     };
 
     const handleToggleVideo = (userId) => {
-      console.log(`User with ID ${userId} toggled video`);
+      // console.log(`User with ID ${userId} toggled video`);
       setPlayers((prev) => ({
         ...prev,
         [userId]: {
@@ -267,7 +267,7 @@ const Room = () => {
     };
 
     const handleScreenShareEvent = (userId) => {
-      console.log(`User with ID ${userId} started screen sharing`);
+      // console.log(`User with ID ${userId} started screen sharing`);
       setPlayers((prev) => ({
         ...prev,
         [userId]: {
@@ -278,7 +278,7 @@ const Room = () => {
     };
 
     const handleScreenShareStopEvent = (userId) => {
-      console.log(`User with ID ${userId} stopped screen sharing`);
+      // console.log(`User with ID ${userId} stopped screen sharing`);
       setPlayers((prev) => ({
         ...prev,
         [userId]: {
@@ -289,7 +289,7 @@ const Room = () => {
     };
 
     const handleUserLeave = (userId, username) => {
-      console.log(`User ${username} (${userId}) is leaving the room`);
+      // console.log(`User ${username} (${userId}) is leaving the room`);
       users[userId]?.close();
       setPlayers((prevPlayers) => {
         const { [userId]: _, ...remainingPlayers } = prevPlayers;
@@ -333,11 +333,11 @@ const Room = () => {
       const callerUsername = call.metadata?.username || "Unknown";
 
 
-      console.log(`Incoming call from ${callerUsername} (${callerId})`);
+      // console.log(`Incoming call from ${callerUsername} (${callerId})`);
       call.answer(stream);
 
       call.on("stream", (incomingStream) => {
-        console.log(`Incoming stream from ${callerUsername} (${callerId})`);
+        // console.log(`Incoming stream from ${callerUsername} (${callerId})`);
 
         setPlayers((prev) => ({
           ...prev,
@@ -371,7 +371,7 @@ const Room = () => {
 
   useEffect(() => {
     if (!stream || !myId) return;
-    console.log(`Setting my stream (${myId})`);
+    // console.log(`Setting my stream (${myId})`);
     setPlayers((prev) => ({
       ...prev,
       [myId]: {

@@ -103,7 +103,7 @@ const Notes = ({ isNotesVisible, setisNotesVisible }) => {
 
     const debouncedUpdateNote = useCallback(debounce((htmlContent) => {
         UpdateNote(htmlContent);
-        console.log("Note updated", htmlContent);
+        // console.log("Note updated", htmlContent);
     }, 800), []);
 
     const handleBlur = () => {

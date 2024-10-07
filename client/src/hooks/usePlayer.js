@@ -32,15 +32,16 @@ const usePlayer = (myId, roomId, peer, stream) => {
       });
 
       if (response.ok) {
-        console.log(response.data);
-        console.log("User successfully left the room");
+        // console.log(response.data);
+        // console.log("User successfully left the room");
         socket.emit('user-leave', myId, roomId);
-        console.log("Leaving room", roomId);
+        // console.log("Leaving room", roomId);
         peer?.disconnect();
         navigate('/meetingsDashboard');
-      } else {
-        console.error('Failed to leave room:', await response.json());
-      }
+      } 
+      // else {
+      //   console.error('Failed to leave room:', await response.json());
+      // }
     } catch (error) {
       console.error('Error leaving room:', error);
     }
@@ -58,14 +59,14 @@ const usePlayer = (myId, roomId, peer, stream) => {
     console.log(sanitizedNote);
       handleUserLeave(sanitizedNote);
       socket.emit('user-leave', myId, roomId);
-      console.log("Leaving room", roomId);
+      // console.log("Leaving room", roomId);
       peer?.disconnect();
       navigate('/meetingsDashboard');
   };
 
 
   const toggleAudio = () => {
-    console.log("I toggled my audio");
+    // console.log("I toggled my audio");
     setPlayers((prev) => ({
       ...prev,
       [myId]: {
@@ -77,7 +78,7 @@ const usePlayer = (myId, roomId, peer, stream) => {
   };
 
   const toggleVideo = () => {
-    console.log("I toggled my video");
+    // console.log("I toggled my video");
     setPlayers((prev) => ({
       ...prev,
       [myId]: {
