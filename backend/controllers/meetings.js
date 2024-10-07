@@ -7,7 +7,7 @@ const nodemailer= require('nodemailer');
 
 exports.createMeeting = async (req, res) => {
   // console.log('POST /meetings request received with body:', req.body);
-    // const { roomId, title, host, participants, userId } = req.body;
+    const { roomId, title, host, participants, userId } = req.body;
   
     try {
       const newMeeting = new Meeting({
