@@ -14,11 +14,11 @@ export const UsernameProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
-    console.log(token)
+    // console.log(token)
 
     if (token) {
       const decodedToken = jwtDecode(token);
-      console.log(decodedToken);
+      // console.log(decodedToken);
       const currentTime = Date.now() / 1000;
 
       if (decodedToken.exp > currentTime) {
@@ -35,7 +35,7 @@ export const UsernameProvider = ({ children }) => {
                 email: decodedToken.email,
                 avatar: decodedToken.picture,
               });
-              console.log("User registered:", response.data);
+              // console.log("User registered:", response.data);
               setUserId(response.data.userId);
               setIsRegistered(true);
             } catch (error) {

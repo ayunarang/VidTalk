@@ -15,9 +15,9 @@ export const SocketProvider = ({ children }) => {
     useEffect(() => {
         const connection = io(`${process.env.REACT_APP_CLIENT_URL}`); 
 
-        connection.on('connect', () => {
-            console.log('Socket connected:', connection.id);
-        });
+        // connection.on('connect', () => {
+        //     console.log('Socket connected:', connection.id);
+        // });
 
         connection.on('connect_error', (err) => {
             // console.error('Connection error:', err);
