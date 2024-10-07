@@ -14,9 +14,9 @@ exports.signin = async (req, res) => {
           email,
           avatar,
         });
-        console.log("New user created in backend");
+        // console.log("New user created in backend");
       } else {
-        console.log("Existing user found in backend");
+        // console.log("Existing user found in backend");
       }
 
       const userId= user._id;

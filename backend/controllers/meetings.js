@@ -6,7 +6,7 @@ const nodemailer= require('nodemailer');
 
 
 exports.createMeeting = async (req, res) => {
-  console.log('POST /meetings request received with body:', req.body);
+  // console.log('POST /meetings request received with body:', req.body);
     const { roomId, title, host, participants, userId } = req.body;
   
     try {
@@ -31,7 +31,7 @@ exports.createMeeting = async (req, res) => {
   
       return res.status(200).json(newMeeting);
     } catch (error) {
-      console.error('Error creating meeting:', error);
+      // console.error('Error creating meeting:', error);
       return res.status(500).json({ error: 'Error creating meeting' });
     }
 }
@@ -43,14 +43,14 @@ exports.addParticipant= async (req, res) => {
     const { dbId, roomId } = req.body;
   
     try {
-      console.log("inside add participant")
+      // console.log("inside add participant")
       const updatedMeeting = await Meeting.findOneAndUpdate(
         { roomId },
         { $addToSet: { participants: dbId } }, 
         { new: true } 
       );
 
-      console.log("meeting found and updated", updatedMeeting)
+      // console.log("meeting found and updated", updatedMeeting)
   
       if (!updatedMeeting) {
         return res.status(404).json({ message: 'Meeting not found' });
@@ -64,7 +64,7 @@ exports.addParticipant= async (req, res) => {
   
       return res.status(200).json(updatedMeeting);
     } catch (error) {
-      console.error('Error updating meeting:', error);
+      // console.error('Error updating meeting:', error);
       return res.status(500).json({ message: 'Error updating meeting', error });
     }
 };
@@ -98,7 +98,7 @@ exports.finishMeetings= async (req, res) => {
       }));
   
       await meeting.save();
-      console.log('Meeting saved in db:', meeting);
+      // console.log('Meeting saved in db:', meeting);
   
       user.notes.push({
         meeting: meeting._id,
@@ -106,12 +106,12 @@ exports.finishMeetings= async (req, res) => {
       });
   
       await user.save();
-      console.log('User updated in db:', user);
+      // console.log('User updated in db:', user);
   
       return res.status(200).json({ message: 'Meeting marked as completed.' });
   
     } catch (error) {
-      console.error('Error completing meeting:', error);
+      // console.error('Error completing meeting:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   }
@@ -142,7 +142,7 @@ exports.getMeetings= async (req, res) => {
   
       return res.status(200).json(meetings);
     } catch (error) {
-      console.error('Error fetching meetings:', error);
+      // console.error('Error fetching meetings:', error);
       return res.status(500).json({ message: 'Error fetching meetings', error });
     }
   }
@@ -177,7 +177,7 @@ exports.scheduleMeeting=async (req, res) => {
         };
 
         const meeting = await Meeting.create(meetingData);
-        console.log('Meeting created:', meeting);
+        // console.log('Meeting created:', meeting);
 
         const meetingDateTime = new Date(`${startDate}T${startTime}`);
         const notificationTimeBeforeMeeting = new Date(meetingDateTime.getTime() - notificationTime * 60000);
@@ -185,15 +185,15 @@ exports.scheduleMeeting=async (req, res) => {
 
 
         scheduleEmailNotification(meeting, notificationTimeBeforeMeeting, notificationTime);
-        console.log('Meeting sent to scheduler');
+        // console.log('Meeting sent to scheduler');
 
 
         scheduleCheckForParticipants(meeting, checkParticipantsTime);
-        console.log('Meeting check-for-participants job scheduled');
+        // console.log('Meeting check-for-participants job scheduled');
 
         return res.status(200).json({ message: 'Meeting scheduled successfully', meeting });
     } catch (error) {
-        console.error('Error scheduling the meeting:', error);
+        // console.error('Error scheduling the meeting:', error);
         return res.status(500).json({ error: 'Failed to schedule the meeting' });
     }
 }
@@ -211,7 +211,7 @@ function scheduleEmailNotification(meeting, sendTime, notificationTime) {
             try {
                 const user = await User.findById(host);
                 if (!user || !user.email) {
-                    console.log('User not found or email not available');
+                    // console.log('User not found or email not available');
                     return;
                 }
                 const username = user.name;
@@ -222,14 +222,15 @@ function scheduleEmailNotification(meeting, sendTime, notificationTime) {
                     html: send_mail(username, roomId, notificationTime),
                 });
 
-                console.log('Email reminder sent successfully');
+                // console.log('Email reminder sent successfully');
             } catch (error) {
                 console.error('Error sending email:', error);
             }
         }, delay);
-    } else {
-        console.error('Notification time has already passed.');
-    }
+    } 
+    // else {
+    //     console.error('Notification time has already passed.');
+    // }
 }
 
 const sendEmailNotification = async ({ to, subject, html }) => {
@@ -250,9 +251,9 @@ const sendEmailNotification = async ({ to, subject, html }) => {
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log('Email sent successfully');
+        // console.log('Email sent successfully');
     } catch (error) {
-        console.error('Error sending email:', error);
+        // console.error('Error sending email:', error);
         throw new Error('Error sending email');
     }
 };
@@ -260,7 +261,7 @@ const sendEmailNotification = async ({ to, subject, html }) => {
 
 function scheduleCheckForParticipants(meeting, checkTime) {
   const { roomId } = meeting;
-  console.log('Scheduling check for participants for Room ID:', roomId);
+  // console.log('Scheduling check for participants for Room ID:', roomId);
 
   const currentTime = new Date();
   const delay = checkTime.getTime() - currentTime.getTime();
@@ -271,27 +272,29 @@ function scheduleCheckForParticipants(meeting, checkTime) {
               const meetingToCheck = await Meeting.findOne({ roomId });
 
               if (!meetingToCheck) {
-                  console.log('Meeting not found for Room ID:', roomId);
+                  // console.log('Meeting not found for Room ID:', roomId);
                   return;
               }
 
               if (meetingToCheck.status === 'completed') {
-                  console.log('Meeting already completed for Room ID:', roomId);
+                  // console.log('Meeting already completed for Room ID:', roomId);
                   return;
               }
 
               if (meetingToCheck.participants.length === 0) {
                   meetingToCheck.status = 'completed';
                   await meetingToCheck.save();
-                  console.log(`Meeting ${roomId} marked as completed due to no participants.`);
-              } else {
-                  console.log(`Meeting ${roomId} has participants, no action taken.`);
-              }
+                  // console.log(`Meeting ${roomId} marked as completed due to no participants.`);
+              } 
+              // else {
+              //     console.log(`Meeting ${roomId} has participants, no action taken.`);
+              // }
           } catch (error) {
               console.error('Error checking for participants:', error);
           }
       }, delay);
-  } else {
-      console.error('Check for participants time has already passed.');
-  }
+  } 
+  // else {
+  //     console.error('Check for participants time has already passed.');
+  // }
 }
