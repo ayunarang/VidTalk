@@ -58,7 +58,7 @@ Vidtalk is a video conferencing application built with the MERN stack. It levera
    The application is fully responsive, ensuring a seamless experience across devices.
 
 <div style="white-space: nowrap;">
-   <img src="./assets/loginviewvidtalk.jpg" alt="Login Image" style="width: 300px; height: auto; display: inline-block; margin-right: 10px;"/>
+   <img src="./assets/loginviewvidtalk.jpg" alt="Login Image" style="width: 300px; height: auto; display: inline-block; margin-right: 50px;"/>
    <img src="./assets/dashboardmobile.jpg" alt="Dashboard Image" style="width: 300px; height: auto; display: inline-block;"/>
 </div>
 
