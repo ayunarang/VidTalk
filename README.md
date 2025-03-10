@@ -13,6 +13,7 @@
   <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" />
   <img src="https://img.shields.io/badge/WebRTC-333333?style=for-the-badge&logo=webrtc&logoColor=white" />
   <img src="https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white" />
+  <img src="https://img.shields.io/badge/Google%20OAuth%202.0-4285F4?style=for-the-badge&logo=google&logoColor=white" />
 </p>
 
 ## Features
